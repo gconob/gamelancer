@@ -31,7 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition  
 
 INSTALLED_APPS = (
-    'gamelancer',
+   'gamelancer_main',
+    'gamelancer_admin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -82,7 +83,7 @@ DATABASES = {
         'NAME':'db_gamelancer',
         'USER': 'gamelancer',
         'PASSWORD': 'gamelancer00A',
-        'HOST':'dev.gamelancer.co.kr',
+        'HOST':'db.gamelancer.co.kr',
         'PORT': '3306',
         
     }

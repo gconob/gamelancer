@@ -1,3 +1,5 @@
 from django.contrib import admin
+from gamelancer_main.models import Post
 
-# Register your models here.
+admin.site.register(Post)
+

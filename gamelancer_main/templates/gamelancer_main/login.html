@@ -1,0 +1,12 @@
+{% extends "gamelancer_main/template_main.html" %}
+
+{% block content %}
+	<form action="/accounts/auth/" method="post"> {% csrf_token %}
+		<input type="text" name="username" id="username"/>
+		<input type="password" name="password" id="password"/>
+		<input type="submit" value="login"/>
+	</form>
+{% endblock %}
+
+
+
