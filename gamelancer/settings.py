@@ -26,18 +26,20 @@ SECRET_KEY = '-utu^jilob#l&k#0x32kgjx95h!!g093(8yreo$3dux$5owmoo'
 DEBUG = True
 
 ALLOWED_HOSTS = []
+ 
 
-
-# Application definition
+# Application definition  
 
 INSTALLED_APPS = (
+   'gamelancer_main',
+    'gamelancer_admin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'gamelancer',
+   
 )
 
 MIDDLEWARE_CLASSES = (
@@ -81,7 +83,7 @@ DATABASES = {
         'NAME':'db_gamelancer',
         'USER': 'gamelancer',
         'PASSWORD': 'gamelancer00A',
-        'HOST':'dev.gamelancer.co.kr',
+        'HOST':'db.gamelancer.co.kr',
         'PORT': '3306',
         
     }
