@@ -5,6 +5,9 @@ from django.http import HttpResponseRedirect
 from django.contrib import auth
 from django.core.context_processors import csrf
 from gamelancer_main.forms import *
+from django.contrib.auth.decorators import login_required
+from .models import UserProfile
+
 import pdb
 
 def index(request):
@@ -45,12 +48,15 @@ def register(request):
    # pdb.set_trace()
     if request.method=='POST':
         form = RegistrationForm(request.POST)
-        if form.is_valid():
-            #pdb.set_trace()
+        if form.is_valid():            
             user = User.objects.create_user(username=form.cleaned_data['username'], password=form.cleaned_data['password1'], email=form.cleaned_data['email'])
-            return HttpResponseRedirect('/client/main')
-            #return render_to_response('gamelancer_main/main_client.html')
-    form = RegistrationForm()
- #   variables = RequestContext(request, {'form': form})
+            userprofile = UserProfile(user=user, usertype =form.cleaned_data['usertype'])
+            userprofile.save()
+            if form.cleaned_data['usertype']== 0:
+                return HttpResponseRedirect('/client/main')            
+            if form.cleaned_data['usertype']==1:
+                return HttpResponseRedirect('partner/main')
+                       
+    form = RegistrationForm( initial={'usertype':0})
     return render(request, 'gamelancer_main/register.html', {'form':form})
-    #return render_to_response(request, 'gamelancer_main/register.html')
+ 

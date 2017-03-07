@@ -12,7 +12,8 @@ urlpatterns = [
     url(r'^accounts/loggedin/$', views.loggedin),
     url(r'^accounts/invalid/$', views.invalid_login),
     url(r'^accounts/register/$',views.register),
-    url(r'^client/main/$', views.client_main)
+    url(r'^client/main/$', views.client_main),
+    url(r'^parter/main/$', views.partner_main)
     
                
 ]
