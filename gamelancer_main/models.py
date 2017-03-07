@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.utils import timezone
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, null=True, blank=True)
@@ -26,11 +27,11 @@ class Project(models.Model):
 class ProjectCategory_Master(models.Model):
     title = models.CharField(max_length=140)
     parent_id = models.IntegerField(default=0)
-    duration = models.IntegerField(deafault=0)
-    register_time = models.DateTimeField(default=datetime.now())
+    duration = models.IntegerField(default=0)
+    register_time = models.DateTimeField(default=timezone.now())
     work_start_date = models.DateField(null=True)
     closing_date = models.DateField(null=True)
-    budget = models.IntegerField(default=0)
+    budget = models.IntegerField(default=0)  
      
 class ProjectCategory(models.Model):
     project_id = models.IntegerField()
