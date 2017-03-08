@@ -8,6 +8,7 @@ from gamelancer_main.forms import *
 from django.contrib.auth.decorators import login_required
 from .models import UserProfile
 
+
 import pdb
 
 def index(request):
@@ -25,7 +26,12 @@ def auth_view(request):
     if user is not None:
         if user.is_active:
             auth.login(request, user)
-            return HttpResponseRedirect('/accounts/loggedin')
+            userprofile = UserProfile(user=user) 
+            request.session['user_id'] = user.id
+            if userprofile.usertype  == 0:
+                return HttpResponseRedirect('/client/main')
+            if userprofile.usertype ==1:
+                return HttpResponseRedirect('/partner/main')
             
     return HttpResponseRedirect('/accounts/invalid')
       
@@ -44,19 +50,50 @@ def client_main(request):
 def partner_main(request):
     return render(request, 'gamelancer_main/parter_main.html')
 
-def register(request):
-   # pdb.set_trace()
+def register(request):  
     if request.method=='POST':
         form = RegistrationForm(request.POST)
+       
         if form.is_valid():            
             user = User.objects.create_user(username=form.cleaned_data['username'], password=form.cleaned_data['password1'], email=form.cleaned_data['email'])
             userprofile = UserProfile(user=user, usertype =form.cleaned_data['usertype'])
             userprofile.save()
-            if form.cleaned_data['usertype']== 0:
-                return HttpResponseRedirect('/client/main')            
-            if form.cleaned_data['usertype']==1:
-                return HttpResponseRedirect('partner/main')
-                       
-    form = RegistrationForm( initial={'usertype':0})
+            pdb.set_trace()
+            if userprofile.usertype == '0':
+                return render(request, 'gamelancer_main/client_main.html')
+                #return HttpResponseRedirect('/client/main')            
+            elif userprofile.usertype =='1':
+                return render(request, 'gamelancer_main/partner_main.html')
+                #return HttpResponseRedirect('/partner/main')
+            else:
+                return render(request, 'gamelancer_main/client_main.html', {'usertype':userprofile.usertype})
+    else:                   
+        form = RegistrationForm( initial={'usertype':0})
+    
     return render(request, 'gamelancer_main/register.html', {'form':form})
  
+def project_register(request):
+    if request.method=='POST':
+        form = ProjectRegisterForm(request.POST)
+        
+        if form.is_valid():
+            project = Project()
+            project.user_id = request.session['user_id']
+            project.title = form.cleaned_data['title']
+            project.desc = form.cleaned_data['desc']
+            project.duration = form.cleaned_data['duration']
+            project.technical_tag = form.cleaned_data['technical_tag']
+            project.work_start_date = form.cleaned_data['work_start_date']
+            project.closing_date = form.cleaned_data['closing_date']
+            project.budget = form.cleaned_data['budget']
+            project.category1 = form.cleaned_data['category1']
+            project.category2 = form.cleaned_data['category2']
+            project.category3 = form.cleaned_data['category3']
+            project.category4 = form.cleaned_data['category4']
+            
+            project.save()
+            return HttpResponseRedirect('/client/main')
+        
+    form = ProjectRegisterForm()
+    return render(request, 'gamelancer_main/client_project_register.html', {'form':form })
+    

@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
+from gamelancer_main.category import *
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, null=True, blank=True)
@@ -15,29 +16,59 @@ class UserProfile(models.Model):
     zipcode = models.CharField(default='', max_length=10)
 
 class Project(models.Model):
-    user_id = models.IntegerField(default=1)
+    user_id = models.IntegerField(default=0)
     title = models.CharField(max_length=140)
     desc = models.TextField()
-    rootcategory = models.SmallIntegerField(default=0)
-    childcategory = models.SmallIntegerField(default = 1)
-    region_code1= models.IntegerField(default=0)
-    region_code2=models.IntegerField(default = 0)
-    technical_tag = models.CharField(max_length=255)
-    
-class ProjectCategory_Master(models.Model):
-    title = models.CharField(max_length=140)
-    parent_id = models.IntegerField(default=0)
+    category1 = models.SmallIntegerField(choices=FUNCTIONAL_CATEGORY, default = 0)
+    category2 = models.SmallIntegerField(choices=TECHNICAL_CATEGORY, default = 0)
+    category3 = models.SmallIntegerField(choices=PLATFORM_CATEGORY, default = 0)
+    categery4 = models.SmallIntegerField(choices=GENRE_CATEGORY, default = 0)
+    region = models.CharField(null=True, max_length = 140)   
+    technical_tag = models.CharField(null=True, max_length=255)
     duration = models.IntegerField(default=0)
-    register_time = models.DateTimeField(default=timezone.now())
+    register_time = models.DateTimeField(default= timezone.now)
     work_start_date = models.DateField(null=True)
     closing_date = models.DateField(null=True)
-    budget = models.IntegerField(default=0)  
-     
-class ProjectCategory(models.Model):
+    budget = models.IntegerField(default=0) 
+    display = models.BooleanField(default=False)
+
+class ProjectConcern(models.Model):
     project_id = models.IntegerField()
-    category_id = models.IntegerField()
+    user_id = models.IntegerField()
+
+class ProjectApply(models.Model):
+    project_id = models.IntegerField()
+    user_id = models.IntegerField()
+    budget = models.IntegerField()
+    duration = models.IntegerField()
+    comment = models.TextField()
+    portfolio = models.CharField(max_length=55)
+    portfolio_desc = models.TextField()
+    
+class Portfolio(models.Model):
+    user_id = models.IntegerField()
+    project_id = models.IntegerField(default=0)
+    category = models.CharField(default='0', max_length=140) 
+    desc = models.TextField(default='0')
+    start_day = models.DateField()
+    end_day = models.DateField()
+    participation_ratio = models.IntegerField()
+    technical_tag = models.CharField(max_length=255)
+    image1 = models.ImageField(upload_to='portfolio')
+    image2 = models.ImageField(upload_to='portfolio')
+    image3 = models.ImageField(upload_to='portfolio')
+    image4 = models.ImageField(upload_to='portfolio')
+    image5 = models.ImageField(upload_to='portfolio')
+    image1desc = models.CharField(max_length=140)
+    image2desc = models.CharField(max_length=140)
+    image3desc = models.CharField(max_length=140)
+    image4desc = models.CharField(max_length=140)
+    image5desc = models.CharField(max_length=140)
+    
+    
 
     
+      
     
 '''
 @receiver(post_save, sender=User)
