@@ -1,12 +1,12 @@
 body{
 	padding:50px;
 }
-
+p {
+	background-color : purple; 
+}
 #project-item {
 	outline: 1px solid orange;
-}
-.custom-label {
-	display: inline-block; 
+	background-color: yellow;
 }
 
 #login-dp{

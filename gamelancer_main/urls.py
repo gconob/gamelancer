@@ -12,7 +12,7 @@ urlpatterns = [
     url(r'^accounts/register/$',views.register),
     url(r'^client/main/$', views.client_main),
     url(r'^client/project/register/$', views.project_register),
+    url(r'^client/project/main/$', views.project_main),
     url(r'^parter/main/$', views.partner_main),
-    
-               
+                   
 ]
