@@ -82,18 +82,25 @@ def project_register(request):
             project.title = form.cleaned_data['title']
             project.desc = form.cleaned_data['desc']
             project.duration = form.cleaned_data['duration']
-            project.technical_tag = form.cleaned_data['technical_tag']
+            project.technical_tag1 = form.cleaned_data['technical_tag1']
+            project.technical_tag2 = form.cleaned_data['technical_tag2']
+            project.technical_tag3 = form.cleaned_data['technical_tag3']
+            project.technical_tag4 = form.cleaned_data['technical_tag4']
+            project.technical_tag5 = form.cleaned_data['technical_tag5']            
             project.work_start_date = form.cleaned_data['work_start_date']
             project.closing_date = form.cleaned_data['closing_date']
             project.budget = form.cleaned_data['budget']
             project.category1 = form.cleaned_data['category1']
             project.category2 = form.cleaned_data['category2']
             project.category3 = form.cleaned_data['category3']
-            project.category4 = form.cleaned_data['category4']
-            
+            project.category4 = form.cleaned_data['category4']            
             project.save()
             return HttpResponseRedirect('/client/main')
         
     form = ProjectRegisterForm()
     return render(request, 'gamelancer_main/client_project_register.html', {'form':form })
     
+def project_main(request):
+    projects = dict()
+    projects['projects'] = Project.objects.filter(user_id=request.session['user_id']).order_by('-closing_date') 
+    return render(request, 'gamelancer_main/client_project_main.html', projects)   

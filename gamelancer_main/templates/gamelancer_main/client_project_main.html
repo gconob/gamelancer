@@ -1,0 +1,36 @@
+{% extends "gamelancer_main/template_client.html" %}
+
+{% block content %}
+
+	{% for  project in projects %}
+	<div class = "row" id="project-item"> 
+		<div class = "media" >
+			{% if project.is_past_due %}						
+				<span class="label label-default">모집완료  </span>
+			{% else %}
+				<span class="label label-success">모집중  </span>
+			{% endif %}
+			<h3> {{ project.title }}</h3>
+					
+			<p> 프로젝트 예산 {{ project.budget }} 마감일 {{ project.closing_date | date:"Y.m.d" }} 예상기간 :  {{ project.duration }} </p>
+			<p> 등록일 {{ project.register_time |date:"Y.m.d"}}  예상업무시작일  {{ project.work_start_date | date:"Y.m.d" }} </p>
+			
+			<p> {{ project.desc }} </p>
+			
+			<p> 기능 : {{ project.category1 }} 기술  {{ project.category2 }} 플랫폼 {{project.category3 }} 장르 {{ project.category4 }}
+			
+			<div class ="custom-label">
+				<span class="label label-primary"> {{ project.technical_tag1 | default_if_none:"c++"}} </span> &nbsp
+				<span class="label label-primary"> {{ project.technical_tag2 | default_if_none:"unity3d"}} </span>&nbsp
+				<span class="label label-primary"> {{ project.technical_tag3 | default_if_none:"C#"}} </span>&nbsp
+				<span class="label label-primary"> {{ project.technical_tag4 | default_if_none:"android"}} </span>&nbsp
+				<span class="label label-primary"> {{ project.technical_tag5 | default_if_none:"none"}} </span>&nbsp
+			</div>
+		</div>
+	</div>
+	<br><br>
+	{% endfor %}
+	
+{% endblock %}
+
+

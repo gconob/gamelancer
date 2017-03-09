@@ -1,4 +1,39 @@
 FUNCTIONAL_CATEGORY = (
+    ("무관", "무관"),
+    ("턴키", "턴키"),
+    ("기획", "기획"),
+    ("서버", "서버 프로그램"),    
+)
+
+TECHNICAL_CATEGORY = (
+    ("무관", "무관"),
+    ("C++", "C++"),
+    ("Unity3D", "Unity3D"),
+    ("Unreal Engilne", "Unreal Engine"),
+    ("3D Max", "3D MAX"),
+    ("PhotoShop", "photoshop")
+)
+
+PLATFORM_CATEGORY = (
+    ("무관", "무관"),
+    ("모바일", "모바일"),
+    ("온라인 PC", "온라인 PC"),
+    ("웹게임", "웹게임"),
+    ("콘솔", "콘솔"),
+    ("아케이드", "아케이드")
+)
+
+GENRE_CATEGORY = (
+    ("무관", "무관"),
+    ("RPG", "RPG"),
+    ("SNG", "SNG"),
+    ("FPS", "FPS"),
+    ("AOS", "AOS"),
+    ("Sports", "Sports"),
+    ("Gamble", "Gamble")
+)
+'''
+FUNCTIONAL_CATEGORY = (
     (0, "무관"),
     (1, "턴키"),
     (2, "기획"),
@@ -38,3 +73,4 @@ GENRE_CATEGORY = (
     (5, "Sports"),
     (6, "Gamble")
 )
+'''
