@@ -2,6 +2,13 @@ body{
 	padding:50px;
 }
 
+.badge-notify {
+	background:red;
+	position:relative;
+	top: -20px;
+	left: -35px;
+}
+
 #project-item {
 	outline: 1px solid orange;
 }
