@@ -28,6 +28,8 @@ def auth_view(request):
         if user.is_active:
             auth.login(request, user)            
             userprofile = UserProfile(user=user)
+            request.session['user_id']=user.id
+            request.session['user_name']=user.username
             if (userprofile.usertype  == '0') or (userprofile.usertype == 0):
                 return HttpResponseRedirect('/client/main')
             if (userprofile.usertype == '1') or (userprofile.usertype== 1):
@@ -36,7 +38,7 @@ def auth_view(request):
   #  c.update(csrf(request))
   #  return render_to_response('gamelancer_main/login.html', c)
     return login(request)
-      
+        
 
 @login_required(login_url='/accounts/login/')
 def client_main(request):
