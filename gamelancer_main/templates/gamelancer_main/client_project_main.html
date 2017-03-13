@@ -17,14 +17,13 @@
 			
 			<p> {{ project.desc }} </p>
 			
-			<p> 기능 : {{ project.category1 }} 기술  {{ project.category2 }} 플랫폼 {{project.category3 }} 장르 {{ project.category4 }}
+			<p> 기능 : {{ project.category1 }} 플랫폼 {{project.category2 }} 장르 {{ project.category3 }}
 			
 			<div class ="custom-label">
-				<span class="label label-primary"> {{ project.technical_tag1 | default_if_none:"c++"}} </span> &nbsp
-				<span class="label label-primary"> {{ project.technical_tag2 | default_if_none:"unity3d"}} </span>&nbsp
-				<span class="label label-primary"> {{ project.technical_tag3 | default_if_none:"C#"}} </span>&nbsp
-				<span class="label label-primary"> {{ project.technical_tag4 | default_if_none:"android"}} </span>&nbsp
-				<span class="label label-primary"> {{ project.technical_tag5 | default_if_none:"none"}} </span>&nbsp
+			
+				{% for tag in project.get_tag_list %}
+				<span class="label label-primary"> {{tag}} </span> &nbsp
+				{% endfor %}				
 			</div>
 		</div>
 	</div>

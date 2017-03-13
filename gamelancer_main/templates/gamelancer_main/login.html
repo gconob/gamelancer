@@ -1,7 +1,6 @@
 {% extends "gamelancer_main/template_main.html" %}
 
 {% block content %}
-{{ usertype }}
 	<form action="/accounts/auth/" method="post"> {% csrf_token %}
 		<input type="text" name="username" id="username"/>
 		<input type="password" name="password" id="password"/>
