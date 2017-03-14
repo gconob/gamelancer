@@ -1,0 +1,33 @@
+{% extends "gamelancer_main/template_main.html" %}
+
+{% block content %}
+<div class = "container">
+	<div class = "row">
+		<div class = "col-md-2">
+			Left
+		</div>
+		<div class="col-md-8">
+			<div id = "login" class="well well-large offset4span">
+				<h3>로그인</h3>
+				<form action="/accounts/auth/" method="post"> {% csrf_token %}
+					<label for="username" class="col2 col-form-label">아이디</label>
+					<input class="form-control" type="text" name="username" id="username"/>
+					<label for="password" class="col2 col-form-label">패스워드</label>
+					<input class ="form-control" type="password" name="password" id="password"/>
+		 			<label class="checkbox" for="rememberme">
+        			<input type="checkbox" id="rememberme"/>
+						로그인 정보 저장
+      				</label> <br />
+      				<input class="btn btn-success" type="submit" value="로그인" />
+				</form>
+			</div>
+		</div>
+		<div class="col-md-2">
+			right
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+
+

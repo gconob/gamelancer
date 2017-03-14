@@ -1,0 +1,35 @@
+{% extends "gamelancer_main/template_client.html" %}
+
+{% block content %}
+
+	{% for  project in projects %}
+	<div class = "row" id="project-item"> 
+		<div class = "media" >
+			{% if project.is_past_due %}						
+				<span class="label label-default">모집완료  </span>
+			{% else %}
+				<span class="label label-success">모집중  </span>
+			{% endif %}
+			<h3> {{ project.title }}</h3>
+					
+			<p> 프로젝트 예산 {{ project.budget }} 마감일 {{ project.closing_date | date:"Y.m.d" }} 예상기간 :  {{ project.duration }} </p>
+			<p> 등록일 {{ project.register_time |date:"Y.m.d"}}  예상업무시작일  {{ project.work_start_date | date:"Y.m.d" }} </p>
+			
+			<p> {{ project.desc }} </p>
+			
+			<p> 기능 : {{ project.category1 }} 플랫폼 {{project.category2 }} 장르 {{ project.category3 }}
+			
+			<div class ="custom-label">
+			
+				{% for tag in project.get_tag_list %}
+				<span class="label label-primary"> {{tag}} </span> &nbsp
+				{% endfor %}				
+			</div>
+		</div>
+	</div>
+	<br><br>
+	{% endfor %}
+	
+{% endblock %}
+
+
