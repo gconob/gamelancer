@@ -7,7 +7,7 @@ from django.contrib import auth
 from django.core.context_processors import csrf
 from gamelancer_main.forms import *
 from django.contrib.auth.decorators import login_required
-from .models import UserProfile
+from .models import Profile
 
 #pos key : U01TX0FVVEgyMDE3MDMxMjAyMTcxNTE5NTk4 
 import pdb
@@ -27,13 +27,15 @@ def auth_view(request):
     if user is not None:
         if user.is_active:
             auth.login(request, user)            
-            userprofile = UserProfile(user=user)
+            usertype = user.profile.usertype;
             request.session['user_id']=user.id
             request.session['user_name']=user.username
-            if (userprofile.usertype  == '0') or (userprofile.usertype == 0):
+
+            if usertype == 0:
                 return HttpResponseRedirect('/client/main')
-            if (userprofile.usertype == '1') or (userprofile.usertype== 1):
-                return HttpResponseRedirect('/partner/main')    
+            if usertype == 1:
+                return HttpResponseRedirect('/partner/main')
+
   #  c={}
   #  c.update(csrf(request))
   #  return render_to_response('gamelancer_main/login.html', c)
@@ -46,7 +48,7 @@ def client_main(request):
 
 @login_required(login_url='/accounts/login/')
 def partner_main(request):
-    return render(request, 'gamelancer_main/parter_main.html')
+    return render(request, 'gamelancer_main/partner_main.html')
 
 def register(request):  
     if request.method=='POST':
@@ -114,3 +116,5 @@ def client_apply_manage(request):
     apply = dict()
     apply['ProjectApply'] = ProjectApply.objects.filter()
     return render(request, "gamelancer_main/client_apply_manage.html")
+
+

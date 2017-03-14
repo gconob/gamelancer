@@ -13,6 +13,8 @@ urlpatterns = [
     url(r'^client/project/main/$', views.project_main),
     url(r'^client/project/(?P<project_id>[0-9]+)$', views.project_detail, name='client_project_detail'),
     url(r'^client/apply/main/$', views.client_apply_manage, name='client_apply'),
-    url(r'^parter/main/$', views.partner_main),
+    url(r'^partner/main/$', views.partner_main),
+    url(r'^partner/userinfo/$', views.partner_userinfo),
+
                    
 ]

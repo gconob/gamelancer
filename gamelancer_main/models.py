@@ -8,8 +8,8 @@ from django.conf import settings
 
 from gamelancer_main.category import *
 
-class UserProfile(models.Model):    
-    user = models.OneToOneField(User, null=True, blank=True)
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     usertype = models.SmallIntegerField(default=0)    
     desc = models.TextField(null=True)
     companytype = models.CharField(max_length=64, null=True)
