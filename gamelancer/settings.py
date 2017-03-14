@@ -32,7 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = (
    'gamelancer_main',
-    'gamelancer_admin',
+    #'gamelancer_admin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
