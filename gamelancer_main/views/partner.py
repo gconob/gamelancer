@@ -24,7 +24,8 @@ def partner_user_page(request):
 
 @login_required(login_url='/accounts/login/')
 def partner_portfolio_upload(request):
-    return render(request, 'gamelancer_main/partner_portfolio_upload.html')
+    form = PortfolioForm()
+    return render(request, 'gamelancer_main/partner_portfolio_upload.html', {'form':form})
 
 @login_required(login_url='/accounts/login/')
 def partner_portfolio(request):

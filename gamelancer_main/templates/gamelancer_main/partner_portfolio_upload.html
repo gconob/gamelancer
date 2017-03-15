@@ -9,42 +9,23 @@
         </div>
         <div class="col-md-8">
             <h1>포트폴리오 추가</h1>
-            <form>
+            <form method="POST" class="post-form"> {% csrf_token %}
                 <div class="form-group row">
-                    <lable for="title" class="col-2 col-form-label">포트폴리오 제목 </lable>
-                    <div class="col-10">
-                        <input class="form-control" type="text" id="title" />
-                    </div>
+                    {{ form.title }}
                 </div>
 
                 <div class="form-group row">
-                        <label class="mr-sm-2" for="inlineFormCustomSelect">기능별</label>
-                        <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect">
-                            <option selected>카테고리</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                        </select>
+                    {{ form.desc }}
                 </div>
-                 <div class="form-group row">
-                        <label class="mr-sm-2" for="inlineFormCustomSelect">플랫폼별</label>
-                        <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect">
-                            <option selected>카테고리</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                        </select>
+
+                <div>
+                    {{ form.start_day }}
+                    {{ form.end_day }}
+                    {{ form.image1 }}
+                    {{ form.image1desc }}
                 </div>
-                 <div class="form-group row">
-                        <label class="mr-sm-2" for="inlineFormCustomSelect">장르별</label>
-                        <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect">
-                            <option selected>카테고리</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                        </select>
-                </div>
-                 <button type="submit" class="btn btn-primary">업로드</button>
+
+                 <button type="submit" class="save btn btn-default">업로드</button>
             </form>
         </div>
     </div>
