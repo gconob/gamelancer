@@ -8,6 +8,9 @@ body{
 	top: -20px;
 	left: -35px;
 }
+h1 {
+	color:orange;
+}
 #login {
 	margin-top : 10%;
 	box-shadow: 0 0 18px #ccc;
