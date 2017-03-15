@@ -26,20 +26,18 @@ SECRET_KEY = '-utu^jilob#l&k#0x32kgjx95h!!g093(8yreo$3dux$5owmoo'
 DEBUG = True
 
 ALLOWED_HOSTS = []
- 
 
-# Application definition  
+
+# Application definition
 
 INSTALLED_APPS = (
-   'gamelancer_main',
-    'gamelancer_admin',
+    'gamelancer_main',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-   
 )
 
 MIDDLEWARE_CLASSES = (
@@ -73,19 +71,31 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'gamelancer.wsgi.application'
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> clean_check
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
+<<<<<<< HEAD
         'NAME':'db_gamelancer',
         'USER': 'gamelancer',
         'PASSWORD': 'gamelancer00A',
         'HOST':'db.gamelancer.co.kr',
         'PORT': '3306',
         
+=======
+        'NAME': 'db_gamelancer',
+        'USER': 'gamelancer',
+        'PASSWORD': 'gamelancer00A',
+        'HOST': 'db.gamelancer.co.kr',
+        'PORT': '3306',
+
+>>>>>>> clean_check
     }
 }
 
@@ -102,7 +112,10 @@ USE_L10N = True
 
 USE_TZ = True
 
+<<<<<<< HEAD
  
+=======
+>>>>>>> clean_check
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
@@ -110,5 +123,9 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_ROOT = '/storage'
 
+<<<<<<< HEAD
 #AUTH_PROFILE_MODULE = 'gamelancer_main.UserProfile'
 
+=======
+# AUTH_PROFILE_MODULE = 'gamelancer_main.UserProfile'
+>>>>>>> clean_check

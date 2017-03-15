@@ -14,5 +14,11 @@ urlpatterns = [
     url(r'^client/project/(?P<project_id>[0-9]+)$', views.project_detail, name='client_project_detail'),
     url(r'^client/apply/main/$', views.client_apply_manage, name='client_apply'),
     url(r'^partner/main/$', views.partner_main),
+<<<<<<< HEAD
+=======
+    url(r'^partner/userinfo/$', views.partner_user_page),
+    url(r'^partner/portfolio/$', views.partner_portfolio),
+    url(r'^partner/portfolio/upload/$', views.partner_portfolio_upload),
+>>>>>>> master
                    
 ]
