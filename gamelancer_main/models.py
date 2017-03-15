@@ -7,12 +7,8 @@ from datetime import date
 from django.conf import settings
 
 from gamelancer_main.category import *
-<<<<<<< HEAD
 
-class Profile(models.Model):    
-=======
 class Profile(models.Model):
->>>>>>> master
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     usertype = models.SmallIntegerField(default=0)    
     desc = models.TextField(null=True)
