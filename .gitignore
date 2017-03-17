@@ -18,3 +18,5 @@ build/
 tests/report/
 p
 venv
+/.[Ii]dea/
+workspace.xml

@@ -5,7 +5,6 @@ from django.dispatch import receiver
 from django.utils import timezone
 from datetime import date
 from django.conf import settings
-
 from gamelancer_main.category import *
 
 class Profile(models.Model):
@@ -82,22 +81,22 @@ class Portfolio(models.Model):
     title = models.CharField(max_length=32)
     category1 = models.CharField(choices=FUNCTIONAL_CATEGORY, max_length="32", default="무관")    
     category2 = models.CharField(choices=PLATFORM_CATEGORY, max_length="32", default="무관")
-    categery3 = models.CharField(choices=GENRE_CATEGORY, max_length="32", default="무관") 
-    desc = models.TextField(default='0')
-    start_day = models.DateField()
-    end_day = models.DateField()
+    category3 = models.CharField(choices=GENRE_CATEGORY, max_length="32", default="무관")
+    desc = models.TextField(null=True)
+    start_day = models.DateField(null=True)
+    end_day = models.DateField(null=True)
     participation_ratio = models.IntegerField()
     technical_tag = models.CharField(null=True, max_length=128)    
-    image1 = models.ImageField(upload_to='portfolio')
-    image2 = models.ImageField(upload_to='portfolio')
-    image3 = models.ImageField(upload_to='portfolio')
-    image4 = models.ImageField(upload_to='portfolio')
-    image5 = models.ImageField(upload_to='portfolio')
-    image1desc = models.CharField(max_length=140)
-    image2desc = models.CharField(max_length=140)
-    image3desc = models.CharField(max_length=140)
-    image4desc = models.CharField(max_length=140)
-    image5desc = models.CharField(max_length=140)
+    image1 = models.ImageField(upload_to='portfolio', null=True)
+    image2 = models.ImageField(upload_to='portfolio', null=True)
+    image3 = models.ImageField(upload_to='portfolio', null=True)
+    image4 = models.ImageField(upload_to='portfolio', null=True)
+    image5 = models.ImageField(upload_to='portfolio', null=True)
+    image1desc = models.CharField(max_length=140, null=True)
+    image2desc = models.CharField(max_length=140, null=True)
+    image3desc = models.CharField(max_length=140, null=True)
+    image4desc = models.CharField(max_length=140, null=True)
+    image5desc = models.CharField(max_length=140, null=True)
     
     def __str__(self):
         return self.user + '-' + self.project.title + '-'+ self.title
@@ -163,9 +162,9 @@ class PrivateNotice(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     title = models.CharField(max_length=64)
     desc = models.TextField()
-    
-    
 
+class TestModel(models.Model):
+    image_uploaded = models.ImageField(upload_to='image/')
     
 '''
 @receiver(post_save, sender=User)

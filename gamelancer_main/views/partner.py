@@ -25,16 +25,23 @@ def partner_user_page(request):
 
 @login_required(login_url='/accounts/login/')
 def partner_portfolio_upload(request):
+    args = {}
     if request.method == "POST":
-        form = PortfolioForm(request.POST or None, Portfolio)
+        #form = PortfolioForm(request.POST or None, PortfolioForm)
+        form = PortfolioForm(request.POST, request.FILES, user=request.user)
+        user = User.objects.get(pk=request.session['user_id'])
         if form.is_valid():
+            port = form.save(commit=False)
+            port.user = user
+            port.save()
             #portfolio = Portfolio
             #portfolio.user = User.objects.get(pk=request.session['user_id'])
             #portfolio.technical_tag = form.cleaned_data['technical_tag']
-            return HttpResponseRedirect('partner/main')
-        else:
-            messages.error(request, 'error')
-    return render(request, 'gamelancer_main/partner_portfolio_upload.html', {'form': PortfolioForm()})
+            return HttpResponseRedirect('/partner/main')
+    else:
+        form = PortfolioForm()
+    args['form'] =form
+    return render(request, 'gamelancer_main/partner_portfolio_upload.html', args)
 
 @login_required(login_url='/accounts/login/')
 def partner_portfolio(request):
