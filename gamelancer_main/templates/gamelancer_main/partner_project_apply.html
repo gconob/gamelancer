@@ -1,0 +1,23 @@
+{% extends "gamelancer_main/template_partner.html" %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            {% include "gamelancer_main/includes/partner_side_menu.html" %}
+        </div>
+        <div class="col-md-8">
+            <h1>프로젝트 지원하기</h1>
+            <form method="POST" class="post-form" enctype="multipart/form-data"> {% csrf_token %}
+
+               {{ form.as_p }}
+
+                 <button type="submit" class="save btn btn-default">지원하기</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+

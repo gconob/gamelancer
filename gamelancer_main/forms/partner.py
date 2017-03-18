@@ -27,3 +27,8 @@ class PortfolioForm(forms.ModelForm):
                 raise forms.ValidationError("기술 태그는 최대 5개까지 적을 수 있습니다")
         return technical_tag
 
+
+class ProjectApplyForm(forms.ModelForm):
+    class Meta:
+        model = ProjectApply
+        exclude=['user','project']
