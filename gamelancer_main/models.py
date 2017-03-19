@@ -33,7 +33,7 @@ class Profile(models.Model):
 
 class Project(models.Model):
     client = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="client")
-    partner = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='partner', null=True)
+    partner = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='partner', null=True)  # 계약이 되었으면 파트너가 된다. 계약이 안되면 apply 테이블에 있다
     title = models.CharField(max_length=140)
     desc = models.TextField()
     
@@ -107,9 +107,9 @@ class ProjectApply(models.Model):
     budget = models.IntegerField()
     duration = models.IntegerField()
     comment = models.TextField()
-    portfolio1 = models.ForeignKey(Portfolio, related_name='portfolio1')
-    portfolio2 = models.ForeignKey(Portfolio, related_name='portfolio2')
-    portfolio3 = models.ForeignKey(Portfolio, related_name='portfolio3')
+    portfolio1 = models.ForeignKey(Portfolio, related_name='portfolio1', null=True)
+    portfolio2 = models.ForeignKey(Portfolio, related_name='portfolio2', null=True)
+    portfolio3 = models.ForeignKey(Portfolio, related_name='portfolio3', null=True)
     portfolio_desc = models.TextField()
     
     def __str__(self):
@@ -121,7 +121,11 @@ class PartnerTechnic(models.Model):
     level = models.CharField(choices=TECH_LEVEL, max_length=32)
     time = models.CharField(choices=TIME, max_length=64)
     main = models.BooleanField(default=False)
-    
+
+    def __str__(self):
+        return self.user.username + '-' + self.type + '(main:' + self.main + ')'
+
+#경력
 class PartnerWorkHistory(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     company = models.CharField(max_length=140)
@@ -129,6 +133,9 @@ class PartnerWorkHistory(models.Model):
     title = models.CharField(max_length=140)
     start_date = models.DateField()
     end_date = models.DateField(null=True)
+
+    def __str__(self):
+        return self.user.username + '-' + self.company
     
 class PartnerEducation(models.Model): #파트너 학력
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
@@ -139,12 +146,18 @@ class PartnerEducation(models.Model): #파트너 학력
     status = models.CharField(choices=SCHOOL_STATUS, max_length=140)
     start_date = models.DateField()
     end_date = models.DateField(null=True)
+
+    def __str__(self):
+        return self.user.username + '-' + self.school
     
 class PartnerLicense(models.Model): #파트너 자젹증
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     title = models.CharField(max_length=64) #자젹증이름
     level = models.CharField(max_length=64, null=True) #자젹증 레벨
     institution = models.CharField(max_length=64, null=True) #발급기관
+
+    def __str__(self):
+        return self.user.username + '-' + self.title
     
 class Evaluation(models.Model): #평가사항
     evaluator = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="evaluator")

@@ -55,6 +55,7 @@ def partner_project_apply(request, id):
     args = {}
     if request.method == "POST":
         form = ProjectApplyForm(request.POST)
+
         user = User.objects.get(pk=request.session['user_id'])
         project = Project.objects.get(id=id)
         if form.is_valid():
@@ -65,6 +66,9 @@ def partner_project_apply(request, id):
             return HttpResponseRedirect('/partner/main')
     else:
         form = ProjectApplyForm()
+        form.fields['portfolio1'].queryset = Portfolio.objects.filter(user=request.user)
+        form.fields['portfolio2'].queryset = Portfolio.objects.filter(user=request.user)
+        form.fields['portfolio3'].queryset = Portfolio.objects.filter(user=request.user)
         args['form'] = form
     return render(request, 'gamelancer_main/partner_project_apply.html', args)
 
@@ -76,3 +80,55 @@ def partner_portfolio_detail(request, id):
     technical_tag = portfolio.technical_tag.split(',')
     context = {"portfolio" : portfolio,'technical_tag':technical_tag }
     return render(request, 'gamelancer_main/partner_portfolio_detail.html', context)
+
+#경력, 학력, 자격증, 기술
+@login_required(login_url='/accounts/login')
+def partner_resume(request):
+    '''
+    if request.method == "POST":
+        save_or_delete = 0
+        if 'add_technique' in request.POST:
+            form = TechniqueForm(Request.POST)
+            save_or_delete = 1
+        if 'add_education' in request.POST:
+            form = EducationForm(Request.POST)
+            save_or_delete = 1
+        if 'add_workhistory' in request.POST:
+            form = WorkHistoryForm(Request.POST)
+            save_or_delete = 1
+        if 'add_license' in request.POST:
+            form = LicenseForm(Request.POST)
+            save_or_delete = 1
+
+        if save_or_delete == 1:
+            save_form = form.save(commit = false)
+            save_form.user = request.user
+            #save_form.user = User.objects.get(pk=request.session['user_id'']
+            save_form.save()
+
+
+        if 'delete_technique' in request.POST:
+            id = request.POST.get('technique_id')
+            PartnerTechnic.objects.get(id = id).delete()
+
+        if 'delete_education' in request.POST:
+            id = request.POST.get('education_id')
+            PartnerEducation.objects.get(id = id).delete()
+
+        if 'delete_workhistory' in request.POST:
+            id = request.POST.get('workhistory_id')
+            PartnerWorkHistory.objects.get(id = id).delete()
+
+        if 'delete_license' in request.POST:
+            id = request.POST.get('license_id')
+            PartnerLicense.objects.get(id = id).delete()
+    else:
+    '''
+    context = {}
+    education  = PartnerEducation.objects.filter(user=request.user)
+    context['education'] = education
+    context['license'] = PartnerLicense.objects.filter(user=request.user)
+    context['technique'] = PartnerTechnic.objects.filter(user=request.user)
+    context['workhistory'] = PartnerWorkHistory.objects.filter(user=request.user)
+
+    return render(request, 'gamelancer_main/partner_resume.html', context)

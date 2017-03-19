@@ -17,9 +17,11 @@ urlpatterns = [
     url(r'^client/apply/main/$', views.client_apply_manage, name='client_apply'),
     url(r'^partner/main/$', views.partner_main),
     url(r'^partner/userinfo/$', views.partner_user_page),
+    url(r'^partner/userinfo/resume/$', views.partner_resume, name='partner_school'),
     url(r'^partner/portfolio/$', views.partner_portfolio),
     url(r'^partner/portfolio/(?P<id>[0-9]+)/$', views.partner_portfolio_detail, name='partner_portfolio_detail'),
     url(r'^partner/portfolio/upload/$', views.partner_portfolio_upload),
     url(r'^partner/project/apply/(?P<id>[0-9]+)/$', views.partner_project_apply),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
