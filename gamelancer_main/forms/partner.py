@@ -32,3 +32,33 @@ class ProjectApplyForm(forms.ModelForm):
     class Meta:
         model = ProjectApply
         exclude=['user','project']
+'''
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user','')
+        super(ProjectApplyForm, self).__init__(**kwargs)
+        if user:
+            self.fields['portfolio1'].queryset = Portfolio.objects.filter(user_id = 2)
+            self.fields['portfolio2'].queryset = Portfolio.objects.filter(user=user)
+            self.fields['portfolio3'].queryset = Portfolio.objects.filter(user=user)
+'''
+
+class WorkHistoryForm(forms.ModelForm):
+    class Meta:
+        model = PartnerWorkHistory
+        exclude = ['user']
+
+class EducationForm(forms.ModelForm):
+    class Meta:
+        model = PartnerEducation
+        exclude = ['user']
+
+class LicenseForm(forms.ModelForm):
+    class Meta:
+        model = PartnerLicense
+        exclude = ['user']
+
+class TechniqueForm(forms.ModelForm):
+    class Meta:
+        model = PartnerTechnic
+        exclude = ['user']
+
