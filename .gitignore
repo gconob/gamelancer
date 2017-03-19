@@ -16,9 +16,9 @@ tests/coverage_html/
 tests/.coverage
 build/
 tests/report/
-#p
+p
 venv
-#/.[Ii]dea/
+/.[Ii]dea/
 workspace.xml
-#r
+r
 
