@@ -11,7 +11,17 @@
             <a href="/partner/portfolio/upload">
                 <input class="btn btn-success" type="submit" value="포트폴리오 업로드" />
             </a>
+
+
+              {% for portfolio in portfolios %}
+                  <h2> <a href="/partner/portfolio/{{ portfolio.id }}"> {{  portfolio.title }}</a></h>
+                    <div>
+                        {{ portfolio.desc }}
+                    </div>
+                {% endfor %}
+
         </div>
+    Is it?
     </div>
 </div>
 {% endblock %}

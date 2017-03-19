@@ -45,4 +45,34 @@ def partner_portfolio_upload(request):
 
 @login_required(login_url='/accounts/login/')
 def partner_portfolio(request):
-    return render(request, 'gamelancer_main/partner_portfolio.html')
+    portfolios = Portfolio.objects.filter(user=request.user)
+    #portfolios = Portfolio.objects.all()
+    context = {"portfolios":portfolios}
+    return render(request, 'gamelancer_main/partner_portfolio.html', context)
+
+@login_required(login_url='/accounts/login/')
+def partner_project_apply(request, id):
+    args = {}
+    if request.method == "POST":
+        form = ProjectApplyForm(request.POST)
+        user = User.objects.get(pk=request.session['user_id'])
+        project = Project.objects.get(id=id)
+        if form.is_valid():
+            apply = form.save(commit=False)
+            apply.user = user
+            apply.project = project
+            apply.save()
+            return HttpResponseRedirect('/partner/main')
+    else:
+        form = ProjectApplyForm()
+        args['form'] = form
+    return render(request, 'gamelancer_main/partner_project_apply.html', args)
+
+
+#프로젝트 상세화면
+@login_required(login_url='/accounts/login')
+def partner_portfolio_detail(request, id):
+    portfolio = Portfolio.objects.get(id=id)
+    technical_tag = portfolio.technical_tag.split(',')
+    context = {"portfolio" : portfolio,'technical_tag':technical_tag }
+    return render(request, 'gamelancer_main/partner_portfolio_detail.html', context)

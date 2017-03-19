@@ -53,7 +53,7 @@ def register(request):
         if form.is_valid():
             user = User.objects.create_user(username=form.cleaned_data['username'],
                                             password=form.cleaned_data['password1'], email=form.cleaned_data['email'])
-            userprofile = UserProfile(user=user, usertype=form.cleaned_data['usertype'])
+            userprofile = Profile(user=user, usertype=form.cleaned_data['usertype'])
             userprofile.save()
             request.session['user_id'] = user.id;
             request.session['user_name'] = user.username

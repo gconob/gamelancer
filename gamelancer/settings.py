@@ -100,12 +100,17 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+DATE_INPUT_FORMATS = ('%Y년 %m월 %d일')
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-MEDIA_ROOT = '/storage'
+MEDIA_URL = '/media/'
+MEDIA_ROOT='D:\storage'
+#MEDIA_ROOT = '/storage'
+
 
 
 # AUTH_PROFILE_MODULE = 'gamelancer_main.UserProfile'

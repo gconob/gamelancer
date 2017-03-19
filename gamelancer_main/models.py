@@ -7,7 +7,7 @@ from datetime import date
 from django.conf import settings
 from gamelancer_main.category import *
 
-class Profile(models.Model):
+class Profile(models.Model):    
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     usertype = models.SmallIntegerField(default=0)    
     desc = models.TextField(null=True)
@@ -64,15 +64,15 @@ class Project(models.Model):
 class ProjectComment(models.Model): #프로젝트 댓글
     project = models.ForeignKey(Project)
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
-    parent_id = models.IntegerField(null=True) #댓글의 댓글일 경우. 0이면 최초댓글
-    secret = models.BooleanField(default=True) #비밀댓글
+    parent_id = models.IntegerField(default=0, null=False) #댓글의 댓글일 경우. 0이면 최초댓글
+    secret = models.BooleanField(default=False) #비밀댓글
     desc = models.TextField()
     
     def __str__(self):
         return self.project.title + "-" + self.user.username + "-" + self.desc
   
     
-class ProjectConcern(models.Model):
+class ProjectConcern(models.Model):  # 관심 프로젝트 등록
     project  = models.ForeignKey(Project)
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
 
@@ -99,7 +99,7 @@ class Portfolio(models.Model):
     image5desc = models.CharField(max_length=140, null=True)
     
     def __str__(self):
-        return self.user + '-' + self.project.title + '-'+ self.title
+        return self.user.username + '-' +  self.title
     
 class ProjectApply(models.Model):
     project = models.ForeignKey(Project)
@@ -107,9 +107,9 @@ class ProjectApply(models.Model):
     budget = models.IntegerField()
     duration = models.IntegerField()
     comment = models.TextField()
-    portfolio1 = models.IntegerField()
-    portfolio2 = models.IntegerField()
-    portfolio3 = models.IntegerField() 
+    portfolio1 = models.ForeignKey(Portfolio, related_name='portfolio1')
+    portfolio2 = models.ForeignKey(Portfolio, related_name='portfolio2')
+    portfolio3 = models.ForeignKey(Portfolio, related_name='portfolio3')
     portfolio_desc = models.TextField()
     
     def __str__(self):
@@ -157,15 +157,15 @@ class PublicNotice(models.Model): #공지사항
     desc = models.TextField()
     notice_date = models.DateField()
     display = models.BooleanField()
-    
-class PrivateNotice(models.Model):
+
+class PrivateNotice(models.Model): #개인에게 각각 보내주는 공지 (프로젝트 등록 등)
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     title = models.CharField(max_length=64)
     desc = models.TextField()
+    notice_time = models.DateTimeField()
 
-class TestModel(models.Model):
-    image_uploaded = models.ImageField(upload_to='image/')
-    
+
+
 '''
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
