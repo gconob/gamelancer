@@ -3,10 +3,53 @@
 {% block content %}
 
 
-<p> partner </p>
+<h1> 프로젝트 찾기 </h1>
 
+<!--TODO. 기능별, 사용기술별, 장르별, 플랫폼별 -->
 
+<form method="POST">{% csrf_token %}
 
+<input name="project_desc" value=""/><button type="submit">검색</button>
+<br><br>
+
+<button name="project_sort" value="-budget" type="submit">금액높은순</button>
+<button name="project_sort" value="budget" type="submit">금액낮은순</button>
+<button name="project_sort" value="-register_time" type="submit">최신등록순</button>
+<button name="project_sort" value="closing_date" type="submit">마감임박순</button>
+<br><br>
+
+    {% for project in projects %}
+	<div class = "row" id="project-item">
+		<div class = "media" >
+            <!--TODO. NEW, 마감임박 추가 표시 필요.-->
+            {% if project.is_past_due %}
+				<span class="label label-default">모집완료  </span>
+			{% else %}
+				<span class="label label-success">모집중  </span>
+			{% endif %}
+
+			<h3> {{ project.title }}</h3>
+
+			<p> 프로젝트 예산 {{ project.budget }} 마감일 {{ project.closing_date | date:"Y.m.d" }} 예상기간 :  {{ project.duration }} </p>
+			<p> 등록일 {{ project.register_time |date:"Y.m.d"}}  예상업무시작일  {{ project.work_start_date | date:"Y.m.d" }} </p>
+
+            <!--TODO. 지원중 여부, 관심있는 프로젝트 표시. -->
+
+			<p> {{ project.desc }} </p>
+
+			<p> 기능 : {{ project.category1 }} 플랫폼 {{project.category2 }} 장르 {{ project.category3 }}
+
+			<div class ="custom-label">
+            	{% for tag in project.get_tag_list %}
+				<span class="label label-primary"> {{tag}} </span> &nbsp
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+    <br>
+    {% endfor %}
+
+</form>
 
 {% endblock %}
 

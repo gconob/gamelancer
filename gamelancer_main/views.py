@@ -42,9 +42,26 @@ def auth_view(request):
 def client_main(request):
     return render(request, 'gamelancer_main/client_main.html')
 
-@login_required(login_url='/accounts/login/')
+#@login_required(login_url='/accounts/login/')
 def partner_main(request):
-    return render(request, 'gamelancer_main/parter_main.html')
+
+    if request.method == 'POST':
+        #form = ProjectSearchForm(request.POST)
+        project_desc = str(request.POST['project_desc'])
+        project_sort = str(request.POST['project_sort'])
+
+        if (len(project_desc) != 0 and len(project_sort) != 0):
+            projects = Project.objects.filter(desc__contains=project_desc).order_by(project_sort)
+        elif len(project_desc) != 0 and len(project_sort) == 0:
+            projects = Project.objects.filter(desc__contains=project_desc)
+        elif (len(project_desc) == 0 and len(project_sort) != 0):
+            projects = Project.objects.order_by(project_sort)
+        else:
+            projects = Project.objects.all()
+    else:
+        projects = Project.objects.all()
+
+    return render(request, 'gamelancer_main/partner_main.html', {'projects':projects})
 
 def register(request):  
     if request.method=='POST':
