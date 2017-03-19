@@ -6,7 +6,7 @@
 *.pot
 *.py[co]
 .tox/
-__pycache__
+#__pycache__
 MANIFEST
 dist/
 docs/_build/
@@ -17,6 +17,6 @@ tests/.coverage
 build/
 tests/report/
 p
-venv
+#venv
 /.[Ii]dea/
 workspace.xml
