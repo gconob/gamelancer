@@ -18,7 +18,7 @@ build/
 tests/report/
 p
 venv
-/.[Ii]dea/
+#/.[Ii]dea/
 workspace.xml
-r
-
+#p
+#r
