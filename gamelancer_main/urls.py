@@ -22,6 +22,6 @@ urlpatterns = [
     url(r'^partner/portfolio/(?P<id>[0-9]+)/$', views.partner_portfolio_detail, name='partner_portfolio_detail'),
     url(r'^partner/portfolio/upload/$', views.partner_portfolio_upload),
     url(r'^partner/project/apply/(?P<id>[0-9]+)/$', views.partner_project_apply),
-
+    url(r'^partner/desc/$', views.partner_desc),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

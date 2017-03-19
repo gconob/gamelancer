@@ -132,3 +132,9 @@ def partner_resume(request):
     context['workhistory'] = PartnerWorkHistory.objects.filter(user=request.user)
 
     return render(request, 'gamelancer_main/partner_resume.html', context)
+
+
+#자기 소개
+def partner_desc(request):
+    profile = Profile.objects.get(user_id = request.user.id)
+    return render(request, 'gamelancer_main/partner_desc.html', {'profile':profile })
