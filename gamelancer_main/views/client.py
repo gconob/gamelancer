@@ -25,8 +25,8 @@ def project_detail(request, project_id):
 @login_required(login_url='/accounts/login/')
 def client_apply_manage(request):
     apply = dict()
-    apply['ProjectApply'] = ProjectApply.objects.filter()
-    return render(request, "gamelancer_main/client_apply_manage.html")
+    apply['ProjectApply'] = ProjectApply.objects.filter(project = Project.objects.filter(client=request.user))
+    return render(request, "gamelancer_main/client_apply_manage.html", apply)
 
 
 @login_required(login_url='/accounts/login/')
