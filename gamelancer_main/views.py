@@ -8,6 +8,8 @@ from django.core.context_processors import csrf
 from gamelancer_main.forms import *
 from django.contrib.auth.decorators import login_required
 from .models import UserProfile
+from django.utils.datastructures import MultiValueDictKeyError
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 #pos key : U01TX0FVVEgyMDE3MDMxMjAyMTcxNTE5NTk4 
 import pdb
@@ -48,7 +50,10 @@ def partner_main(request):
     if request.method == 'POST':
         #form = ProjectSearchForm(request.POST)
         project_desc = str(request.POST['project_desc'])
-        project_sort = str(request.POST['project_sort'])
+        try:
+            project_sort = str(request.POST['project_sort'])
+        except MultiValueDictKeyError:
+            project_sort = ""
 
         if (len(project_desc) != 0 and len(project_sort) != 0):
             projects = Project.objects.filter(desc__contains=project_desc).order_by(project_sort)
@@ -61,7 +66,16 @@ def partner_main(request):
     else:
         projects = Project.objects.all()
 
-    return render(request, 'gamelancer_main/partner_main.html', {'projects':projects})
+    paginator = Paginator(projects, 1)
+    page = request.GET.get('page')
+    try:
+        contacts = paginator.page(page)
+    except PageNotAnInteger:
+        contacts = paginator.page(1)
+    except EmptyPage:
+        contacts = paginator.page(paginator.num_pages)
+
+    return render(request, 'gamelancer_main/partner_main.html', {'projects':contacts})
 
 def register(request):  
     if request.method=='POST':
