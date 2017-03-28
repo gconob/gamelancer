@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -26,20 +27,19 @@ SECRET_KEY = '-utu^jilob#l&k#0x32kgjx95h!!g093(8yreo$3dux$5owmoo'
 DEBUG = True
 
 ALLOWED_HOSTS = []
- 
 
-# Application definition  
+
+# Application definition
 
 INSTALLED_APPS = (
+
    'gamelancer_main',
-    'gamelancer_admin',
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-   
+   'django.contrib.admin',
+   'django.contrib.auth',
+   'django.contrib.contenttypes',
+   'django.contrib.sessions',
+   'django.contrib.messages',
+   'django.contrib.staticfiles',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -80,12 +80,11 @@ WSGI_APPLICATION = 'gamelancer.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME':'db_gamelancer',
+        'NAME': 'db_gamelancer',
         'USER': 'gamelancer',
         'PASSWORD': 'gamelancer00A',
-        'HOST':'db.gamelancer.co.kr',
+        'HOST': 'db.gamelancer.co.kr',
         'PORT': '3306',
-        
     }
 }
 
@@ -102,13 +101,17 @@ USE_L10N = True
 
 USE_TZ = True
 
- 
+DATE_INPUT_FORMATS = ('%Y년 %m월 %d일')
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-MEDIA_ROOT = '/storage'
+MEDIA_URL = '/media/'
+MEDIA_ROOT='D:\storage'
+#MEDIA_ROOT = '/storage'
 
-#AUTH_PROFILE_MODULE = 'gamelancer_main.UserProfile'
+
+
+# AUTH_PROFILE_MODULE = 'gamelancer_main.UserProfile'
 

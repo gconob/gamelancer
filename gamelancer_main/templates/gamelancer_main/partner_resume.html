@@ -1,0 +1,138 @@
+{% extends "gamelancer_main/template_partner.html" %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-2">
+            {% include "gamelancer_main/includes/partner_side_menu.html" %}
+        </div>
+        <div class="col-md-8">
+            <div>
+                <table>
+                    <tr>
+                        <td><h2>보유기술</h2></td>
+                        <td><button class="save btn btn-success">편집하기</button></td>
+                    </tr>
+                </table>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>기술</th>
+                            <th>수준</th>
+                            <th>경력</th>
+                            <th>메인여부</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for tech in technique %}
+                            <tr>
+                                <td>{{ tech.type }}</td>
+                                <td>{{ tech.level }}</td>
+                                <td>{{ tech.time }}</td>
+                                <td>
+                                    {% if tech.main %}
+                                        메인
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+             </div>
+             <div>
+                 <table>
+                    <tr>
+                        <td><h2>경력</h2></td>
+                        <td><button class="save btn btn-success">편집하기</button></td>
+                    </tr>
+                </table>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>직장명</th>
+                            <th>부서</th>
+                            <th>직위</th>
+                            <th>시작일</th>
+                            <th>종료일</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for work in workhistory %}
+                            <tr>
+                                <td> {{ work.company }} </td>
+                                <td> {{ work.department }}</td>
+                                <td> {{ work.title }}</td>
+                                <td> {{ work.start_date | date:"Y.m.d" }}</td>
+                                <td> {{ work.end_date | date:"Y.m.d"}}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                 <table>
+                    <tr>
+                        <td><h2>학력</h2></td>
+                        <td><button class="save btn btn-success">편집하기</button></td>
+                    </tr>
+                </table>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>학교명</th>
+                            <th>전공</th>
+                            <th>분류</th>
+                            <th>학위</th>
+                            <th>입학일</th>
+                            <th>졸업일</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for edu in education %}
+                            <tr>
+                                <td>{{ edu.school }}</td>
+                                <td>{{ edu.major }}</td>
+                                <td>{{ edu.type }}</td>
+                                <td>{{ edu.degree }}</td>
+                                <td>{{ edu.start_date |date:"Y.m.d"}}</td>
+                                <td>{{ edu.end_date|date:"Y.m.d"}}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+
+            <div>
+                 <table>
+                    <tr>
+                        <td><h2>자격증</h2></td>
+                        <td><button class="save btn btn-success">편집하기</button></td>
+                    </tr>
+                </table>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>자격증 이름</th>
+                            <th>등급</th>
+                            <th>발급기관</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for lic in license %}
+                            <tr>
+                                <td>{{ lic.title }}</td>
+                                <td>{{ lic.level }}</td>
+                                <td>{{ lic.institution }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+

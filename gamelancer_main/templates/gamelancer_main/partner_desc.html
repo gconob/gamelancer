@@ -1,0 +1,24 @@
+{% extends "gamelancer_main/template_partner.html" %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2">
+                {% include "gamelancer_main/includes/partner_side_menu.html" %}
+            </div>
+            <div class="col-md-8">
+                <div>
+                    {{ profile.desc }}
+                </div>
+
+                <a href="#">
+                    <input class="btn btn-success" type="submit" value="자기소개 수정" />
+                </a>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
