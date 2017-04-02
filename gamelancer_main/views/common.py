@@ -34,7 +34,7 @@ def auth_view(request):
             usertype = user.profile.usertype;
             request.session['user_id'] = user.id
             request.session['user_name'] = user.username
-
+            request.session['user_type'] = usertype
             if usertype == 0:
                 return HttpResponseRedirect('/client/main')
             if usertype == 1:
