@@ -15,6 +15,11 @@ urlpatterns = [
     url(r'^client/project/main/$', views.project_main),
     url(r'^client/project/(?P<project_id>[0-9]+)$', views.project_detail, name='client_project_detail'),
     url(r'^client/apply/main/$', views.client_apply_manage, name='client_apply'),
+    url(r'^client/user/info/$', views.client_user, name='client_user'),
+    url(r'^client/user/password/$', views.client_password_change, name='client_password_change'),
+    url(r'^client/user/account/$', views.client_account, name='client_account'),
+    url(r'^client/user/verify/$', views.client_verify, name='client_verify'),
+    url(r'^client/terms-of-service/$', views.client_terms_of_service, name='client_terms_of_service'),
     url(r'^partner/main/$', views.partner_main),
     url(r'^partner/userinfo/$', views.partner_user_page),
     url(r'^partner/userinfo/resume/$', views.partner_resume, name='partner_school'),
@@ -23,5 +28,6 @@ urlpatterns = [
     url(r'^partner/portfolio/upload/$', views.partner_portfolio_upload),
     url(r'^partner/project/apply/(?P<id>[0-9]+)/$', views.partner_project_apply),
     url(r'^partner/desc/$', views.partner_desc),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

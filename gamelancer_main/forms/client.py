@@ -33,3 +33,7 @@ class ProjectRegisterForm(forms.Form):
                 return work_start_date
         raise forms.ValidationError("업무시작일을 지정해야 합니다")
 
+class ClientIntroForm(forms.Form):
+    desc = forms.Textarea()
+    address1 = forms.CharField(max_length=140)
+    address2 = forms.CharField(max_length=140)

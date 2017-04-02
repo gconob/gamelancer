@@ -56,11 +56,106 @@ def project_register(request):
 
 @login_required(login_url='/accounts/login/')
 def project_main(request):
-    projects = dict()
-    projects['projects'] = Project.objects.filter(client=request.session['user_id']).order_by('-closing_date')
-    return render(request, 'gamelancer_main/client_project_main.html', projects)
+    context = dict()
+    context['projects'] = Project.objects.filter(client=request.session['user_id']).order_by('-closing_date')
+    context['profile'] = Profile.objects.get(user_id=request.session['user_id']);
+    context['user'] = Profile.objects.get(pk = request.session['user_id'])
+    return render(request, 'gamelancer_main/client_project_main.html', context)
 
 
 @login_required(login_url='/accounts/login/')
 def client_main(request):
     return render(request, 'gamelancer_main/client_main.html')
+
+
+
+
+
+
+'''
+=== 클라이언트 자기 정보 관리 =====
+
+'''
+#=====================
+# 클라이언트 자기소개
+#=====================
+@login_required(login_url='/accounts/login/')
+def client_user(request):
+    context = dict()
+    profile = Profile.objects.get(user=request.user)
+    context['profile'] = profile
+
+    if request.method == 'POST':
+        form = ClientIntroForm(request.POST)
+        if form.is_valid():
+            requesttype = request.POST.get('requesttype')
+            profile = Profile.objects.get(user_id=request.user.id)
+            if requesttype=='desc':
+                profile.desc = request.POST.get('desc')
+                profile.save()
+            if requesttype=='address':
+                profile.address1 = request.POST.get('address1')
+                profile.address2 = request.POST.get('address2')
+                profile.save()
+
+            context['msg'] = '저장하였습니다'
+            context['form'] = form
+            return render(request, 'gamelancer_main/client_userinfo.html', context)
+
+    context['form'] = ClientIntroForm()
+    return render(request, 'gamelancer_main/client_userinfo.html', context)
+
+# =================
+# 패스워드 변경
+# =================
+# 패스워드 편경하기 전에 확인차 패스워드를 한 번 더 물어 본다.
+def client_password_change(request):
+    context = dict()
+    if request.POST:
+        doctype = request.POST.get("doctype")
+        if doctype == "verify":
+            username = request.user.username
+            password = request.POST.get('password')
+
+            user = auth.authenticate(username=username, password=password)
+
+            if user is not None:
+                if user.is_active:
+                    context['type'] = 'passwordchange'
+                    context['form'] = PasswordChangeForm()
+                    return render(request, 'gamelancer_main/client_password_change.html', context)
+
+            context['msg'] = '패스워드가 일치하지 않습니다'
+            context['type'] = 'passwordprechange'
+            return render(request, 'gamelancer_main/client_password_change.html', context)
+
+        if doctype == "passwordchange":
+            form = PasswordChangeForm(request.POST)
+            if form.is_valid():
+                u = User.objects.get(pk=request.session['user_id'])
+                u.set_password(request.POST.get('password1'))
+                u.save()
+                context['msg'] = '패스워드가 변경되었습니다'
+                return render(request, 'gamelancer_main/client_main.html', context)
+            else:
+                context['type'] = "passwordchange"
+                context['form'] = form
+                return render(request, 'gamelancer_main/client_password_change.html', context)
+
+    context['type'] = 'passwordprechange'
+    return render(request, 'gamelancer_main/client_password_change.html', context)
+
+def client_account(request):
+    context = dict()
+    return render(request, 'gamelancer_main/client_userinfo.html', context)
+
+def client_verify(request):
+    context= dict()
+    return render(request, 'gamelancer_main/client_verify.html', context)
+
+
+#=====================
+# 이용약관
+#=====================
+def client_terms_of_service(request):
+    return render(request, 'gamelancer_main/client_terms_of_service.html')

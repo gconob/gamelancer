@@ -1,0 +1,41 @@
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                프로필
+            </div>
+            <div class="panel-body">
+                {{ user.username }}
+                {% if user.image %}
+                    <img src="{{ user.image.url }}"/>
+                {% else %}
+                    {% load staticfiles %}
+                    <img src="{% static 'img/noimage.jpg' %}"/>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                    <a class="btn btn-success" href="/client/project/register">프로젝트 등록하기</a>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                게임랜서 히스토리
+            </div>
+
+            <div class="panel-body">
+                <div>
+                    프로젝트 입찰
+                </div>
+                <div>
+                    프로젝트 입찰 총액
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+

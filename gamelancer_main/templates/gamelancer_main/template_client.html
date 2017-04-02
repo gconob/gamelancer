@@ -4,6 +4,11 @@
 {% include "gamelancer_main/includes/header_main.html" %}
 </head>
 <body>
+    {% if msg %}
+        <script>
+            alert('{{ msg }}');
+        </script>
+    {% endif %}
 {% include "gamelancer_main/includes/nav_client_header.html" %}
 {% block content %}
 {% endblock %}

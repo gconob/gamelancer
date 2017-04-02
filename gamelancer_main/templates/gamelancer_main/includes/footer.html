@@ -13,8 +13,11 @@
         <h6 class="heading7">링크</h6>
         <ul class="footer-ul">
           <li><a href="#"> 이용방법 </a></li>
-          <li><a href="#"> 개인정보 보호정책 </a></li>
-          <li><a href="#"> 이용약관 </a></li>
+            {% if request.session.user_type == 0 %}
+                <li><a href="/client/terms-of-service"> 이용약관 </a></li>
+            {% elif request.session.user_type == 1 %}
+                <li><a href="#">이용약관</a></li>
+            {% endif %}
           <li><a href="#"> 자주 묻는 질문</a></li>
           <li><a href="#"> 회사소개</a></li>
         </ul>
