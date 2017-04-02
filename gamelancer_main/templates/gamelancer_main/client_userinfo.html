@@ -1,0 +1,52 @@
+{% extends "gamelancer_main/template_client.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-2">
+            {% include "gamelancer_main/includes/client_userinfo_left.html" %}
+        </div>
+        <div class="col-md-8">
+            <div> 소개</div>
+
+            <div>
+                {% if profile.desc == None %}
+                    저장된 자기소개가 없습니다
+                {% else %}
+                    {{ profile.desc }}
+                {% endif %}
+            </div>
+
+           <a class="btn btn-success" onclick="this.nextSibling.style.display=(this.nextSibling.style.display=='none')?'block':'none';" href="javascript:void(0)">
+                편집하기
+            </a><div style="DISPLAY: none">
+            <form >
+                <input type="text"/>
+            </form>
+                <a onclick="this.parentNode.style.display='none';" href="javascript:void(0)">
+                접기
+                </a>
+            </div>
+
+            <div>
+                주소
+            </div>
+            <div>
+                {% if profile.address1 == None %}
+                    저장된 주소가 없습니다.
+                {% else %}
+                {{ profile.address1 }}
+                {{ profile.address2 }}
+                {% endif %}
+            </div>
+
+
+        </div>
+        <div class="col-md-2">
+            {% include "gamelancer_main/includes/client_userinfo_right.html" %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
