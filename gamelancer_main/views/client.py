@@ -145,10 +145,31 @@ def client_password_change(request):
     context['type'] = 'passwordprechange'
     return render(request, 'gamelancer_main/client_password_change.html', context)
 
+#==============================
+# 계좌 관리
+#==============================
 def client_account(request):
     context = dict()
-    return render(request, 'gamelancer_main/client_userinfo.html', context)
+    if request.POST:
+        form = ClientAccountForm(request.POST)
+        if form.is_valid():
+            profile = Profile.objects.get(user_id=request.user.id)
+            profile.account_bank = request.POST.get('bank_name')
+            profile.account_number = request.POST.get('account_number')
+            profile.account_owner_name = request.POST.get('account_owner')
+            profile.save()
+            context['msg'] = '계좌정보를 변경하였습니다'
+        else:
+            context['msg'] = '계좌정보를 변경할 수 없습니다'
+    else:
+        form = ClientAccountForm()
+    context['form'] = form
+    return render(request, 'gamelancer_main/client_account.html', context)
 
+
+#=============================
+# 신원인증
+#=============================
 def client_verify(request):
     context= dict()
     return render(request, 'gamelancer_main/client_verify.html', context)

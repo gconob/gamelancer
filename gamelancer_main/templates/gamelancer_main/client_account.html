@@ -1,0 +1,41 @@
+{% extends "gamelancer_main/template_client.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-2">
+            {% include "gamelancer_main/includes/client_userinfo_left.html" %}
+        </div>
+        <div class="col-md-8">
+            <form  action="." method="POST">
+                {% csrf_token %}
+
+                <div class="fieldwapper">
+                    {{ form.account_owner.errors }}
+                    <lable for="{{ form.account_owner.id_for_label }}" class="col-1 col-form-label">예금주</lable>
+                    {{ form.account_owner }}
+                </div>
+
+                <div class="fieldwapper">
+                    {{ form.account_number.errors }}
+                    <lable for="{{ form.account_number.id_for_label }}" class="col-1 col-form-label">계좌번호</lable>
+                    {{ form.account_number }}
+                </div>
+
+                <div class="fieldwapper">
+                    {{ form.bank_name.errors }}
+                    <lable for="{{ form.bank_name.id_for_label }}" class="col-1 col-form-label">은행명</lable>
+                    {{ form.bank_name }}
+                </div>
+
+                <input type="submit" class="btn btn-success" value="변경하기"/>
+            </form>
+        </div>
+        <div class="col-md-2">
+            {% include "gamelancer_main/includes/client_userinfo_right.html" %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+

@@ -37,3 +37,29 @@ class ClientIntroForm(forms.Form):
     desc = forms.Textarea()
     address1 = forms.CharField(max_length=140)
     address2 = forms.CharField(max_length=140)
+
+class ClientAccountForm(forms.Form):
+    account_owner = forms.CharField(max_length=140)
+    account_number = forms.CharField(max_length=140)
+    bank_name = forms.CharField(max_length=140)
+
+    def clean_account_owner(self):
+        if 'account_owner' in self.cleaned_data:
+            account_owner = self.cleaned_data['account_owner']
+            return account_owner
+        else:
+            raise forms.ValidationError('예금주를 정확히 적어 주세요')
+
+    def clean_account_number(self):
+        if 'account_number' in self.cleaned_data:
+            account_number = self.cleaned_data['account_number']
+            return account_number
+        else:
+            raise forms.ValidationError('계좌번호를 정확히 적어 주세요')
+
+    def clean_bank_name(self):
+        if 'bank_name' in self.cleaned_data:
+            bank_name = self.cleaned_data['bank_name']
+            return bank_name
+        else:
+            raise forms.ValidationError('은행명을 적어 주세요')
