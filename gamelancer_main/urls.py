@@ -3,7 +3,7 @@ from django.views.generic import ListView, DetailView
 from . import views
 from django.conf import settings
 from django.conf.urls.static import static
-
+  
 urlpatterns = [    
     url(r'^$', views.index, name='index'),
     url(r'^accounts/login/$', views.login, name='login'),
@@ -30,4 +30,3 @@ urlpatterns = [
     url(r'^partner/desc/$', views.partner_desc),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
