@@ -8,7 +8,7 @@ urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^accounts/login/$', views.login, name='login'),
     url(r'^accounts/auth/$', views.auth_view), 
-    url(r'^accounts/logout/$', views.index),
+    url(r'^accounts/logout/$', 'django.contrib.auth.logout', {'next_page':'/accounts/login'}),
     url(r'^accounts/register/$',views.register),
     url(r'^client/main/$', views.client_main),
     url(r'^client/project/register/$', views.project_register),
