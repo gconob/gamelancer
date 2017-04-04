@@ -57,9 +57,12 @@ def project_register(request):
 @login_required(login_url='/accounts/login/')
 def project_main(request):
     context = dict()
-    context['projects'] = Project.objects.filter(client=request.session['user_id']).order_by('-closing_date')
-    context['profile'] = Profile.objects.get(user_id=request.session['user_id']);
-    context['user'] = Profile.objects.get(pk = request.session['user_id'])
+    try:
+        context['projects'] = Project.objects.filter(client=request.session['user_id']).order_by('-closing_date')
+        context['profile'] = Profile.objects.get(user_id=request.session['user_id']);
+        context['user'] = Profile.objects.get(pk = request.session['user_id'])
+    except ObjectDoesNotExist:
+        context['projects'] = None
     return render(request, 'gamelancer_main/client_project_main.html', context)
 
 
@@ -145,17 +148,43 @@ def client_password_change(request):
     context['type'] = 'passwordprechange'
     return render(request, 'gamelancer_main/client_password_change.html', context)
 
+#==============================
+# 계좌 관리
+#==============================
 def client_account(request):
     context = dict()
-    return render(request, 'gamelancer_main/client_userinfo.html', context)
+    if request.POST:
+        form = ClientAccountForm(request.POST)
+        if form.is_valid():
+            profile = Profile.objects.get(user_id=request.user.id)
+            profile.account_bank = request.POST.get('bank_name')
+            profile.account_number = request.POST.get('account_number')
+            profile.account_owner_name = request.POST.get('account_owner')
+            profile.save()
+            context['msg'] = '계좌정보를 변경하였습니다'
+        else:
+            context['msg'] = '계좌정보를 변경할 수 없습니다'
+    else:
+        form = ClientAccountForm()
+    context['form'] = form
+    return render(request, 'gamelancer_main/client_account.html', context)
 
+
+#=============================
+# 신원인증
+#=============================
 def client_verify(request):
     context= dict()
+    if request.POST:
+        form = ClientAuthForm(request.POST)
+        if form.is_valid():
+            profile = form.save(commit=False)
+            profile.user = user
+            profile.save()
+            context['msg'] = '저장하였습니다'
+    else:
+        form = ClientAuthForm()
+    context['form'] = form
     return render(request, 'gamelancer_main/client_verify.html', context)
 
 
-#=====================
-# 이용약관
-#=====================
-def client_terms_of_service(request):
-    return render(request, 'gamelancer_main/client_terms_of_service.html')

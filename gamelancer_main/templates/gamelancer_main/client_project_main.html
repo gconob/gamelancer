@@ -8,6 +8,7 @@
 
             </div>
             <div class="col-md-8">
+                {% if projects %}
                 {% for  project in projects %}
 	            <div class = "row" id="project-item">
 		            <div class = "media" >
@@ -37,6 +38,9 @@
                     <br/>
                     <br/>
             	{% endfor %}
+            {% else %}
+                <p>등록된 프로젝트가 없습니다.</p>
+            {% endif %}
             </div>
 
             <div class="col-md-2">

@@ -1,11 +1,24 @@
 {% extends "gamelancer_main/template_main.html" %}
 
 {% block content %}
-	<form method="POST" action=".">
-		{{form.as_p}}
-		<input type="submit" value="register"/>
-		{% csrf_token %}
-	</form>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-2">
+
+            </div>
+            <div class="col-lg-8">
+                <form method="POST" action=".">
+                    {% csrf_token %}
+		            {{form.as_p}}
+		            <input class="btn btn-success" type="submit" value="회원 가입 하기"/>
+	            </form>
+            </div>
+            <div class="col-lg-2">
+
+            </div>
+        </div>
+    </div>
+
 {% endblock %}
 
 

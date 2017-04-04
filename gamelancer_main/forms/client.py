@@ -37,3 +37,44 @@ class ClientIntroForm(forms.Form):
     desc = forms.Textarea()
     address1 = forms.CharField(max_length=140)
     address2 = forms.CharField(max_length=140)
+
+class ClientAccountForm(forms.Form):
+    account_owner = forms.CharField(max_length=140)
+    account_number = forms.CharField(max_length=140)
+    bank_name = forms.CharField(max_length=140)
+
+    def clean_account_owner(self):
+        if 'account_owner' in self.cleaned_data:
+            account_owner = self.cleaned_data['account_owner']
+            return account_owner
+        else:
+            raise forms.ValidationError('예금주를 정확히 적어 주세요')
+
+    def clean_account_number(self):
+        if 'account_number' in self.cleaned_data:
+            account_number = self.cleaned_data['account_number']
+            return account_number
+        else:
+            raise forms.ValidationError('계좌번호를 정확히 적어 주세요')
+
+    def clean_bank_name(self):
+        if 'bank_name' in self.cleaned_data:
+            bank_name = self.cleaned_data['bank_name']
+            return bank_name
+        else:
+            raise forms.ValidationError('은행명을 적어 주세요')
+
+class ClientAuthForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields =['company_name', 'companytype', 'business_registration_number', 'company_representative', 'business_address', 'tax_email', 'document_image']
+        widgets = { 'company_name': forms.TextInput(attrs={'class':'form-control'}),
+                    'companytype': forms.Select(choices=TEAM, attrs={'class':'form-control'}),
+                    'business_registration_number' : forms.TextInput(attrs={'class':'form-control'}),
+                    'company_representative': forms.TextInput(attrs={'class':'form-control'}),
+                    'business_address': forms.TextInput(attrs={'class':'form-control'}),
+                    'tax_email': forms.EmailInput(attrs={'class':'form-control'}),
+                    'document_image' : forms.FileInput(attrs={'class':'form-control'})}
+        labels = {'company_name':'회사이름', 'companytype':'회사형태', 'company_representative':'대표자', 'business_address':'회사주소',
+                    'business_registration_number':'사업자등록번호', 'tax_email':'세금계산서 발행 이메일', 'document_image':'증빙서류 스캔 파일'}
+

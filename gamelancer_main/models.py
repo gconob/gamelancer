@@ -13,6 +13,7 @@ class Profile(models.Model):
     desc = models.TextField(null=True)
     companytype = models.CharField(max_length=64, null=True)
     establish_date = models.DateField(null=True)
+    email = models.EmailField(null=True)
     identity_verified = models.BooleanField(default=False)
     email_verified = models.BooleanField(default=False)
     contact_verified = models.BooleanField(default=False)
@@ -27,6 +28,13 @@ class Profile(models.Model):
     account_bank = models.CharField(max_length=64, null=True)
     account_owner_name = models.CharField(max_length=64, null=True)
     account_number = models.CharField(max_length=64, null=True)
+    company_name = models.CharField(max_length=64, null=True)
+    business_registration_number = models.CharField(max_length=64, null=True)
+    company_representative = models.CharField(max_length=64,null=True)
+    business_address = models.CharField(max_length=128, null=True)
+    tax_email=models.EmailField(null=True)
+    document_image = models.ImageField(upload_to='document', null=True)
+
         
     def __str__(self):
         return self.user.username
@@ -177,19 +185,3 @@ class PrivateNotice(models.Model): #개인에게 각각 보내주는 공지 (프
     desc = models.TextField()
     notice_time = models.DateTimeField()
 
-
-
-'''
-@receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:      
-        UserProfile.objects.create(user=instance)
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-   instance.userprofile.save()
-'''
-#User.profile = property(lambda u : UserProfile.objects.get_or_create(user=u)[0])
-    
-    
-    
-    
