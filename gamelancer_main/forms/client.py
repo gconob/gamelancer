@@ -63,3 +63,18 @@ class ClientAccountForm(forms.Form):
             return bank_name
         else:
             raise forms.ValidationError('은행명을 적어 주세요')
+
+class ClientAuthForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields =['company_name', 'companytype', 'business_registration_number', 'company_representative', 'business_address', 'tax_email', 'document_image']
+        widgets = { 'company_name': forms.TextInput(attrs={'class':'form-control'}),
+                    'companytype': forms.Select(choices=TEAM, attrs={'class':'form-control'}),
+                    'business_registration_number' : forms.TextInput(attrs={'class':'form-control'}),
+                    'company_representative': forms.TextInput(attrs={'class':'form-control'}),
+                    'business_address': forms.TextInput(attrs={'class':'form-control'}),
+                    'tax_email': forms.EmailInput(attrs={'class':'form-control'}),
+                    'document_image' : forms.FileInput(attrs={'class':'form-control'})}
+        labels = {'company_name':'회사이름', 'companytype':'회사형태', 'company_representative':'대표자', 'business_address':'회사주소',
+                    'business_registration_number':'사업자등록번호', 'tax_email':'세금계산서 발행 이메일', 'document_image':'증빙서류 스캔 파일'}
+

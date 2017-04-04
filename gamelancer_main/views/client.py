@@ -57,9 +57,12 @@ def project_register(request):
 @login_required(login_url='/accounts/login/')
 def project_main(request):
     context = dict()
-    context['projects'] = Project.objects.filter(client=request.session['user_id']).order_by('-closing_date')
-    context['profile'] = Profile.objects.get(user_id=request.session['user_id']);
-    context['user'] = Profile.objects.get(pk = request.session['user_id'])
+    try:
+        context['projects'] = Project.objects.filter(client=request.session['user_id']).order_by('-closing_date')
+        context['profile'] = Profile.objects.get(user_id=request.session['user_id']);
+        context['user'] = Profile.objects.get(pk = request.session['user_id'])
+    except ObjectDoesNotExist:
+        context['projects'] = None
     return render(request, 'gamelancer_main/client_project_main.html', context)
 
 
@@ -172,11 +175,16 @@ def client_account(request):
 #=============================
 def client_verify(request):
     context= dict()
+    if request.POST:
+        form = ClientAuthForm(request.POST)
+        if form.is_valid():
+            profile = form.save(commit=False)
+            profile.user = user
+            profile.save()
+            context['msg'] = '저장하였습니다'
+    else:
+        form = ClientAuthForm()
+    context['form'] = form
     return render(request, 'gamelancer_main/client_verify.html', context)
 
 
-#=====================
-# 이용약관
-#=====================
-def client_terms_of_service(request):
-    return render(request, 'gamelancer_main/client_terms_of_service.html')

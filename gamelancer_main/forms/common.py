@@ -8,10 +8,10 @@ from gamelancer_main.category import *
 
 
 class RegistrationForm(forms.Form):
-    username = forms.CharField(label='id', max_length=30)
-    email = forms.EmailField(label='Email')
-    password1 = forms.CharField(label='password', widget=forms.PasswordInput())
-    password2 = forms.CharField(label='password(Again)', widget=forms.PasswordInput())
+    username = forms.CharField(label='아이디', max_length=30, widget=forms.TextInput(attrs={'class':'form-control'}))
+    email = forms.EmailField(label='이메일', widget=forms.EmailInput(attrs={'class':'form-control'}))
+    password1 = forms.CharField(label='패스워드', widget=forms.PasswordInput(attrs={'class':'form-control'}))
+    password2 = forms.CharField(label='패스워드 확인', widget=forms.PasswordInput(attrs={'class':'form-control'}))
     usertype = forms.ChoiceField(choices=USER_TYPE, label='파트너 혹은 클라이언트를 선택하세요', widget=forms.RadioSelect())
 
     def clean_password2(self):

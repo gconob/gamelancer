@@ -45,6 +45,9 @@ def auth_view(request):
                 #  return render_to_response('gamelancer_main/login.html', c)
     return login(request)
 
+#====================================
+# 회원가입
+#====================================
 
 def register(request):
     if request.method == 'POST':
@@ -71,4 +74,27 @@ def register(request):
     return render(request, 'gamelancer_main/register.html', {'form': form})
 
 
+#==================================
+# 이용방법
+#==================================
 
+def howtouse_main(request):
+    return render(request, 'gamelancer_main/howtouse_main.html')
+
+def howotuse_client(request):
+    return render(request, 'gamelancer_main/howtouse_client.html')
+
+def howtouse_partner(request):
+    return render(request, 'gamelancer_main/howtouse_partner.html')
+
+def howtouse_faq(request):
+    return render(request, 'gamelancer_main/howtouse_faq.html')
+
+def howtouse_fare(request):
+    return render(request, 'gamelancer_main/howtouse_fare.html')
+
+#=====================
+# 이용약관
+#=====================
+def terms_of_service(request):
+    return render(request, 'gamelancer_main/terms_of_service.html')
