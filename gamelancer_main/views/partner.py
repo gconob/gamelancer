@@ -52,6 +52,35 @@ def partner_main(request):
     return render(request, 'gamelancer_main/partner_main.html', {'projects':contacts})
 
 @login_required(login_url='/accounts/login/')
+def partner_manage(request):
+
+    if request.method == 'POST':
+        #form = ProjectSearchForm(request.POST)
+        try:
+            project_sort = str(request.POST['project_sort'])
+        except MultiValueDictKeyError:
+            project_sort = ""
+
+        if (len(project_sort) != 0):
+            projects = Project.objects.order_by(project_sort)
+        else:
+            projects = Project.objects.all()
+    else:
+        projects = Project.objects.all()
+
+    paginator = Paginator(projects, 10)
+    page = request.GET.get('page')
+    try:
+        contacts = paginator.page(page)
+    except PageNotAnInteger:
+        contacts = paginator.page(1)
+    except EmptyPage:
+        contacts = paginator.page(paginator.num_pages)
+
+    return render(request, 'gamelancer_main/partner_manage.html', {'projects':contacts})
+
+
+@login_required(login_url='/accounts/login/')
 def partner_user_page(request):
     return render(request, 'gamelancer_main/partner_user_page.html')
 
