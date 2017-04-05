@@ -1,0 +1,31 @@
+{% include 'gamelancer_main/includes/header_main.html' %}
+
+{% if user.is_authenticated %}
+    {% if request.session.user_type == 0 %}
+        {% include 'gamelancer_main/includes/nav_client_header.html' %}
+    {% else %}
+        {% include 'gamelancer_main/includes/nav_partner_header.html' %}
+    {% endif %}
+{% else %}
+    {%  include 'gamelancer_main/includes/nav_main_header.html' %}
+{% endif %}
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2">
+
+            </div>
+            <div class="col-md-8">
+	            {% include 'gamelancer_main/common/terms-of-service.html' %}
+            </div>
+            <div class="col-md-2">
+
+            </div>
+        </div>
+    </div>
+
+{% include 'gamelancer_main/includes/footer.html' %}
+
+
+

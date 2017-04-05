@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+{% include "gamelancer_main/includes/header_main.html" %}
+</head>
+<body>
+{% if user.is_authenticated %}
+    {% if request.session.user_type == 0 %}
+        {% include 'gamelancer_main/includes/nav_client_header.html' %}
+    {% else %}
+        {% include 'gamelancer_main/includes/nav_partner_header.html' %}
+    {% endif %}
+{% else %}
+    {% include 'gamelancer_main/includes/nav_main_header.html' %}
+{% endif %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+             <ul class="list-group">
+                 <a href="/howto/main" class="list-group-item">게임랜서소개</a>
+                 <a href="/howto/client" class="list-group-item">의뢰자(클라이언트) 이용방법</a>
+                 <a href="/howto/partner" class="list-group-item">개발자 (파트너) 이용방법</a>
+                 <a href="/howto/fare" class="list-group-item">요금 안내</a>
+                 <a href="/howto/faq" class="list-group-item">자주 묻는 질문</a>
+             </ul>
+        </div>
+        <div class="col-md-9">
+            {% block content %}
+
+            {% endblock %}
+        </div>
+    </div>
+</div>
+
+{% include "gamelancer_main/includes/footer.html" %}
+</body>
+</html>
