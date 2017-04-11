@@ -47,7 +47,7 @@ class Project(models.Model):
     
     category1 = models.CharField(choices=FUNCTIONAL_CATEGORY, max_length="32", default="무관")    
     category2 = models.CharField(choices=PLATFORM_CATEGORY, max_length="32", default="무관" )
-    categery3 = models.CharField(choices=GENRE_CATEGORY, max_length="32", default="무관")
+    category3 = models.CharField(choices=GENRE_CATEGORY, max_length="32", default="무관")
     
     region = models.CharField(null=True, max_length = 140)   
     technical_tag  = models.CharField(null=True, max_length=128)    
