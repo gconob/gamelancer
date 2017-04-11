@@ -11,6 +11,7 @@ from django.contrib.auth.decorators import login_required
 from ..models import Profile
 from django.utils.datastructures import MultiValueDictKeyError
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from gamelancer_main import category
 
 
 
@@ -49,7 +50,7 @@ def partner_main(request):
     except EmptyPage:
         contacts = paginator.page(paginator.num_pages)
 
-    return render(request, 'gamelancer_main/partner_main.html', {'projects':contacts})
+    return render(request, 'gamelancer_main/partner_main.html', {'projects':contacts, 'category' : category})
 
 @login_required(login_url='/accounts/login/')
 def partner_manage(request):
