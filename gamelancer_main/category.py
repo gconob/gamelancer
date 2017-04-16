@@ -30,16 +30,16 @@ GENRE_CATEGORY = (
 )
 
 PROGRAM_CATEGORY = (
-    (1, "c/c++"),
-    (2, "Unity3D"),
-    (3, "Unreal"),
-    (4, "Android"),
-    (5, "IOS"),
-    (6, "cocos-2D"),
-    (7, "Photoshop"),
-    (8, "Illustrator"),
-    (9, "3DMax"),
-    (10, "Maya")
+    ("PGM01", "c/c++"),
+    ("PGM02", "Unity3D"),
+    ("PGM03", "Unreal"),
+    ("PGM04", "Android"),
+    ("PGM05", "IOS"),
+    ("PGM06", "cocos-2D"),
+    ("PGM07", "Photoshop"),
+    ("PGM08", "Illustrator"),
+    ("PGM09", "3DMax"),
+    ("PGM10", "Maya")
 )
 
 TECH_LEVEL = (
