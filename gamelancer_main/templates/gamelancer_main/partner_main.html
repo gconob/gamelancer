@@ -12,65 +12,18 @@
     <script type='text/javascript'>
     $(document).ready(function(){
 
-		var category1 = $("input[type='checkbox'][name='category1']");
-
-		category1.on('change', function() {
-			if (category1.is(":checked")) {
-				$("input[type=checkbox][name='function']").prop("checked",true);
-			} else {
-				$("input[type=checkbox][name='function']").prop("checked",false);
-			}
-			$("button[name='search']").trigger("click");
-		});
-
-        var fnction = $("input[type='checkbox'][name='function']");
-        var isFnction;
+        var fnction = $("input[type='radio'][name='fnction']");
         fnction.on('change', function() {
-            isFnction = false;
-        	{% for index, category in category.FUNCTIONAL_CATEGORY %}
-        		isFnction = isFnction || $("#{{index}}").is(":checked");
-        	{% endfor %}
-            category1.prop('checked', isFnction);
             $("button[name='search']").trigger("click");
         });
 
-        var category2 = $("input[type='checkbox'][name='category2']");
-		category2.on('change', function() {
-			if (category2.is(":checked")) {
-				$("input[type=checkbox][name='platform']").prop("checked",true);
-			} else {
-				$("input[type=checkbox][name='platform']").prop("checked",false);
-			}
-			$("button[name='search']").trigger("click");
-		});
-        var platform = $("input[type='checkbox'][name='platform']");
-        var isPlatform;
+        var platform = $("input[type='radio'][name='platform']");
         platform.on('change', function() {
-            isPlatform = false;
-        	{% for index, category in category.PLATFORM_CATEGORY %}
-        		isPlatform = isPlatform || $("#{{index}}").is(":checked");
-        	{% endfor %}
-            category2.prop('checked', isPlatform);
             $("button[name='search']").trigger("click");
         });
 
-        var category3 = $("input[type='checkbox'][name='category3']");
-		category3.on('change', function() {
-			if (category3.is(":checked")) {
-				$("input[type=checkbox][name='genre']").prop("checked",true);
-			} else {
-				$("input[type=checkbox][name='genre']").prop("checked",false);
-			}
-			$("button[name='search']").trigger("click");
-		});
-		var genre = $("input[type='checkbox'][name='genre']");
-		var isGenre;
+		var genre = $("input[type='radio'][name='genre']");
         genre.on('change', function() {
-        	isGenre = false;
-        	{% for index, category in category.GENRE_CATEGORY %}
-        		isGenre = isGenre || $("#{{index}}").is(":checked");
-        	{% endfor %}
-            category3.prop('checked', isGenre);
             $("button[name='search']").trigger("click");
         });
 
@@ -100,18 +53,16 @@
 
 <h1> 프로젝트 찾기 </h1>
 
-<!--TODO. 기능별, 사용기술별, 장르별, 플랫폼별 -->
-
 <p></p>
 <form method="POST">{% csrf_token %}
 
 <label class="checkbox-inline">
-	<input type="checkbox" data-toggle="toggle" name="category1"> 기능별
+	기능별
 </label>
 <br>
 {% for index, category in category.FUNCTIONAL_CATEGORY %}
 <label data-form-control="toggle" data-min-width="60" data-min-height="30">
-	<input name="function" type="checkbox" id="{{index}}" value="{{index}}">
+	<input name="fnction" type="radio" id="{{index}}" value="{{index}}" {% if condition.fnction == index %} checked {% endif %}>
 		<span data-form-decorator="before">
 			<span data-form-decorator="after">{{category}}</span>
 		</span>
@@ -121,12 +72,12 @@
 <p></p>
 
 <label class="checkbox-inline">
-	<input type="checkbox" data-toggle="toggle" name="category2"> 플랫폼별
+	플랫폼별
 </label>
 <br>
 {% for index, category in category.PLATFORM_CATEGORY %}
 <label data-form-control="toggle" data-min-width="60" data-min-height="30">
-	<input name="platform" type="checkbox" id="{{index}}" value="{{index}}">
+	<input name="platform" type="radio" id="{{index}}" value="{{index}}" {% if condition.platform == index %} checked {% endif %}>
 		<span data-form-decorator="before">
 			<span data-form-decorator="after">{{category}}</span>
 		</span>
@@ -135,12 +86,12 @@
 
 <p></p>
 <label class="checkbox-inline">
-	<input type="checkbox" data-toggle="toggle" name="category3"> 장르별
+	장르별
 </label>
 <br>
 {% for index, category in category.GENRE_CATEGORY %}
 <label data-form-control="toggle" data-min-width="60" data-min-height="30">
-	<input name="genre" type="checkbox" id="{{index}}" value="{{index}}">
+	<input name="genre" type="radio" id="{{index}}" value="{{index}}">
 		<span data-form-decorator="before">
 			<span data-form-decorator="after">{{category}}</span>
 		</span>

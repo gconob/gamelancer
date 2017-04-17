@@ -12,7 +12,10 @@ from ..models import Profile
 from django.utils.datastructures import MultiValueDictKeyError
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from gamelancer_main import category
+from django.db.models import Q
 
+from functools import reduce
+import operator
 
 
 import pdb
@@ -23,33 +26,44 @@ import pdb
 def partner_main(request):
 
     if request.method == 'POST':
-        #form = ProjectSearchForm(request.POST)
+        form = ProjectSearchForm(request.POST)
         project_desc = str(request.POST['project_desc'])
+        fnction = request.POST.get('fnction', '')
+        platform = request.POST.get('platform', '')
+        genre = request.POST.get('genre', '')
+        project_sort = request.POST.get('project_sort', '')
 
-        function_selected_values = request.POST.getlist('function')
-        platform_selected_values = request.POST.getlist('platform')
-        genre_selected_values = request.POST.getlist('genre')
+        combine_filter = Project.objects.all()
+
+        if (len(project_desc) > 0):
+            combine_filter = combine_filter.filter(desc__contains=project_desc)
+
+        if (len(fnction) > 0):
+            form.fields['fnction'] = fnction
+            combine_filter = combine_filter.filter(category1=fnction)
+
+        if (len(platform) > 0):
+            form.fields['platform'] = platform
+            combine_filter = combine_filter.filter(category2=platform)
+
+        if (len(genre) > 0):
+            form.fields['genre'] = genre
+            combine_filter = combine_filter.filter(category3=genre)
+
+        if (len(project_sort) > 0):
+            combine_filter = combine_filter.order_by(project_sort)
+
         program_selected_values = request.POST.getlist('program')
+        #print(program_selected_values)
+        list_of_Q = [Q(**{'technical_tag__contains': val}) for val in program_selected_values]
+        if (len(list_of_Q) > 0):
+            combine_filter = combine_filter.filter(reduce(operator.or_, list_of_Q))
 
-        print(function_selected_values)
-        print(platform_selected_values)
-        print(genre_selected_values)
-        print(program_selected_values)
+        #print(combine_filter)
+        projects = combine_filter
 
-        try:
-            project_sort = str(request.POST['project_sort'])
-        except MultiValueDictKeyError:
-            project_sort = ""
-
-        if (len(project_desc) != 0 and len(project_sort) != 0):
-            projects = Project.objects.filter(desc__contains=project_desc).order_by(project_sort)
-        elif len(project_desc) != 0 and len(project_sort) == 0:
-            projects = Project.objects.filter(desc__contains=project_desc)
-        elif (len(project_desc) == 0 and len(project_sort) != 0):
-            projects = Project.objects.order_by(project_sort)
-        else:
-            projects = Project.objects.all()
     else:
+        form = ProjectSearchForm()
         projects = Project.objects.all()
 
     paginator = Paginator(projects, 1)
@@ -61,19 +75,16 @@ def partner_main(request):
     except EmptyPage:
         contacts = paginator.page(paginator.num_pages)
 
-    return render(request, 'gamelancer_main/partner_main.html', {'projects':contacts, 'category' : category})
+    return render(request, 'gamelancer_main/partner_main.html', {'projects':contacts, 'category' : category, 'condition' : form})
 
 @login_required(login_url='/accounts/login/')
 def partner_manage(request):
 
     if request.method == 'POST':
-        #form = ProjectSearchForm(request.POST)
-        try:
-            project_sort = str(request.POST['project_sort'])
-        except MultiValueDictKeyError:
-            project_sort = ""
+        #form = ProjectRegisterForm(request.POST)
+        project_sort = request.POST.get('project_sort', '')
 
-        if (len(project_sort) != 0):
+        if (len(project_sort) > 0):
             projects = Project.objects.order_by(project_sort)
         else:
             projects = Project.objects.all()

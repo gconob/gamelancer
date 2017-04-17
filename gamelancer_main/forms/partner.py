@@ -4,6 +4,11 @@ from gamelancer_main.models import *
 from .html5 import Html5Date
 from gamelancer_main.category import *
 
+class ProjectSearchForm(forms.ModelForm):
+    class Meta:
+        model = Project
+        exclude = ['client', 'category1', 'category2', 'category3', ]
+
 class PortfolioForm(forms.ModelForm):
     category1 = forms.ChoiceField(choices=FUNCTIONAL_CATEGORY, label="기능별 ", initial='', widget=forms.Select())
     category2 = forms.ChoiceField(choices=PLATFORM_CATEGORY, label="플랫폼별 ", initial='', widget=forms.Select())
