@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import Http404
+from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
@@ -29,6 +30,9 @@ def client_apply_manage(request):
     return render(request, "gamelancer_main/client_apply_manage.html", apply)
 
 
+#============================
+# 프로젝트 등록
+#============================
 @login_required(login_url='/accounts/login/')
 def project_register(request):
     if request.method == 'POST':
@@ -48,6 +52,13 @@ def project_register(request):
             project.category2 = form.cleaned_data['category2']
             project.category3 = form.cleaned_data['category3']
             project.save()
+            privatenotice = PrivateNotice()
+            privatenotice.type = 1
+            privatenotice.project = project
+            privatenotice.desc = '프로젝트 등록'
+            privatenotice.reader = request.user
+            privatenotice.actor = request.user
+            privatenotice.save()
             return HttpResponseRedirect('/client/main')
     else:
         form = ProjectRegisterForm()
@@ -186,5 +197,4 @@ def client_verify(request):
         form = ClientAuthForm()
     context['form'] = form
     return render(request, 'gamelancer_main/client_verify.html', context)
-
 
