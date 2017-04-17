@@ -27,33 +27,33 @@ def partner_main(request):
 
     if request.method == 'POST':
         form = ProjectSearchForm(request.POST)
-        project_desc = str(request.POST['project_desc'])
-        fnction = request.POST.get('fnction', '')
-        platform = request.POST.get('platform', '')
-        genre = request.POST.get('genre', '')
-        project_sort = request.POST.get('project_sort', '')
+        project_desc = str(request.POST['project_desc'])    # TODO
+        project_sort = request.POST.get('project_sort', '') # TODO
 
         combine_filter = Project.objects.all()
 
         if (len(project_desc) > 0):
             combine_filter = combine_filter.filter(desc__contains=project_desc)
 
-        if (len(fnction) > 0):
-            form.fields['fnction'] = fnction
-            combine_filter = combine_filter.filter(category1=fnction)
+        category1 = str(form['category1'].value())
+        print("category1:"+category1)
+        if (len(category1) > 0):
+            combine_filter = combine_filter.filter(category1=category1)
 
-        if (len(platform) > 0):
-            form.fields['platform'] = platform
-            combine_filter = combine_filter.filter(category2=platform)
+        category2 = str(form['category2'].value())
+        print("category2:" + category2)
+        if (len(category2) > 0):
+            combine_filter = combine_filter.filter(category2=category2)
 
-        if (len(genre) > 0):
-            form.fields['genre'] = genre
-            combine_filter = combine_filter.filter(category3=genre)
+        category3 = str(form['category3'].value())
+        print("category3:" + category3)
+        if (len(category3) > 0):
+            combine_filter = combine_filter.filter(category3=category3)
 
         if (len(project_sort) > 0):
             combine_filter = combine_filter.order_by(project_sort)
 
-        program_selected_values = request.POST.getlist('program')
+        program_selected_values = request.POST.getlist('program') # TODO
         #print(program_selected_values)
         list_of_Q = [Q(**{'technical_tag__contains': val}) for val in program_selected_values]
         if (len(list_of_Q) > 0):
@@ -66,7 +66,7 @@ def partner_main(request):
         form = ProjectSearchForm()
         projects = Project.objects.all()
 
-    paginator = Paginator(projects, 1)
+    paginator = Paginator(projects, 2)
     page = request.GET.get('page')
     try:
         contacts = paginator.page(page)
@@ -75,7 +75,7 @@ def partner_main(request):
     except EmptyPage:
         contacts = paginator.page(paginator.num_pages)
 
-    return render(request, 'gamelancer_main/partner_main.html', {'projects':contacts, 'category' : category, 'condition' : form})
+    return render(request, 'gamelancer_main/partner_main.html', {'projects':contacts, 'category' : category, 'form' : form})
 
 @login_required(login_url='/accounts/login/')
 def partner_manage(request):

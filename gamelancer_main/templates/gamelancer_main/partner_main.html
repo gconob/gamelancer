@@ -12,18 +12,18 @@
     <script type='text/javascript'>
     $(document).ready(function(){
 
-        var fnction = $("input[type='radio'][name='fnction']");
-        fnction.on('change', function() {
+        var category1 = $("input[type='radio'][name='category1']");
+        category1.on('change', function() {
             $("button[name='search']").trigger("click");
         });
 
-        var platform = $("input[type='radio'][name='platform']");
-        platform.on('change', function() {
+        var category2 = $("input[type='radio'][name='category2']");
+        category2.on('change', function() {
             $("button[name='search']").trigger("click");
         });
 
-		var genre = $("input[type='radio'][name='genre']");
-        genre.on('change', function() {
+		var category3 = $("input[type='radio'][name='category3']");
+        category3.on('change', function() {
             $("button[name='search']").trigger("click");
         });
 
@@ -62,7 +62,7 @@
 <br>
 {% for index, category in category.FUNCTIONAL_CATEGORY %}
 <label data-form-control="toggle" data-min-width="60" data-min-height="30">
-	<input name="fnction" type="radio" id="{{index}}" value="{{index}}" {% if condition.fnction == index %} checked {% endif %}>
+	<input name="category1" type="radio" id="{{index}}" value="{{index}}" {% if form.category1.value == index %} checked {% endif %}>
 		<span data-form-decorator="before">
 			<span data-form-decorator="after">{{category}}</span>
 		</span>
@@ -77,7 +77,7 @@
 <br>
 {% for index, category in category.PLATFORM_CATEGORY %}
 <label data-form-control="toggle" data-min-width="60" data-min-height="30">
-	<input name="platform" type="radio" id="{{index}}" value="{{index}}" {% if condition.platform == index %} checked {% endif %}>
+	<input name="category2" type="radio" id="{{index}}" value="{{index}}" {% if form.category2.value == index %} checked {% endif %}>
 		<span data-form-decorator="before">
 			<span data-form-decorator="after">{{category}}</span>
 		</span>
@@ -91,7 +91,7 @@
 <br>
 {% for index, category in category.GENRE_CATEGORY %}
 <label data-form-control="toggle" data-min-width="60" data-min-height="30">
-	<input name="genre" type="radio" id="{{index}}" value="{{index}}">
+	<input name="category3" type="radio" id="{{index}}" value="{{index}}" {% if form.category3.value == index %} checked {% endif %}>
 		<span data-form-decorator="before">
 			<span data-form-decorator="after">{{category}}</span>
 		</span>
