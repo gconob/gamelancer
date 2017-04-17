@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import os
 import sys
-
+os.environ['DJANGO_SETTINGS_MODULE'] = 'gamelancer.settings'
 if __name__ == "__main__":
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "gamelancer.settings")
 

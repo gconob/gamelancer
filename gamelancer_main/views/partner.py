@@ -1,11 +1,5 @@
 from django.shortcuts import render
-from django.contrib import messages
-from django.http import Http404
-from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect
-from django.http import HttpResponse
-from django.contrib import auth
-from django.core.context_processors import csrf
 from gamelancer_main.forms import *
 from django.contrib.auth.decorators import login_required
 from ..models import Profile
@@ -13,10 +7,7 @@ from django.utils.datastructures import MultiValueDictKeyError
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from gamelancer_main import category
 
-
-
-import pdb
-
+import datetime
 
 
 @login_required(login_url='/accounts/login/')
@@ -125,6 +116,12 @@ def partner_project_apply(request, id):
             apply.user = user
             apply.project = project
             apply.save()
+            notice = PrivateNotice()
+            notice.user = project.client
+            notice.title = '프로젝트 지원 알림'
+            notice.desc = project.partner + '님께서 ' + project.title + '에 지원하셨습니다'
+            notice.notice_time = str(datetime.datetime.now())
+
             return HttpResponseRedirect('/partner/main')
     else:
         form = ProjectApplyForm()

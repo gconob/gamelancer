@@ -98,3 +98,12 @@ def howtouse_fare(request):
 #=====================
 def terms_of_service(request):
     return render(request, 'gamelancer_main/terms_of_service.html')
+
+#=====================
+# 메시지
+#======================
+def message(request):
+    context = dict()
+    context['notices']= PrivateNotice.objects.filter(reader=request.user).order_by('-id')
+    PrivateNotice.objects.filter(reader=request.user).update(readyn = True)
+    return render(request, 'gamelancer_main/message.html', context)

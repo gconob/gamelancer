@@ -12,6 +12,11 @@
 			<li><a href="/howto/main">이용 방법 </a></li>
 		</ul>
 		<ul class="nav navbar-nav navbar-right">
+            <li class="active">
+                <a href="/message">알림
+               <span class="badge">{{ alarm_cnt }}</span>
+                </a>
+            </li>
 			<li class="dropdown">
 				<a class="dropdown-toggle" data-toggle="dropdown" href="#">
 					{{request.session.user_name}}님 환영합니다 <span class="caret"></span>				

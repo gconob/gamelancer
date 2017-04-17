@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include "gamelancer_main/includes/header_main.html" %}
+</head>
+<body>
+    {% if request.session.user_type == 0 %}
+        {% include "gamelancer_main/includes/nav_client_header.html" %}
+    {% else %}
+        {% include "gamelancer_main/includes/nav_partner_header.html" %}
+    {% endif %}
+
+    <div class="container">
+        <div class="row"<>
+            <div class="col-lg-1">
+            </div>
+            <div class="col-lg-10">
+
+
+    {% for notice in notices %}
+	            <div class = "row" id="project-item">
+		            <div class = "media" style="padding: 10px;" >
+                        {% if notice.type == 1 %}
+                            <p><strong>{{ notice.actor }}</strong>님께서 <strong>{{ notice.project }} </strong> 프로젝트를 등록하셨습니다.
+                        {% endif %}
+
+                        {% if notice.type == 2 %}
+                            <p><strong>{{ notice.actor }}</strong>님께서 <strong>{{ notice.project }} </strong> 프로젝트에 지원하셨습니다.
+                        {% endif %}
+
+                        {% if notice.type == 2 %}
+                            <p><strong>{{ notice.reader }}</strong>님과 <string>{{ notice.actor }}</string>님께서<strong>
+                            {{ notice.project }} </strong> 프로젝트 계약을 하셨습니다.
+                        {% endif %}
+
+                        <p>{{ notice.notice_time| date:"Y.m.d" }}</p>
+			        </div>
+	            </div>
+                    <br/>
+                    <br/>
+    {% endfor %}
+            </div>
+            <div class="col-lg-1">
+            </div>
+        </div>
+    </div>
+
+    {% include "gamelancer_main/includes/footer.html" %}
+</body>
+</html>

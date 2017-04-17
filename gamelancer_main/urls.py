@@ -11,7 +11,7 @@ urlpatterns = [
     url(r'^accounts/auth/$', views.auth_view), 
     url(r'^accounts/logout/$', 'django.contrib.auth.views.logout', {'next_page':'/accounts/login'}),
     url(r'^accounts/register/$',views.register),
-    url(r'^client/main/$', views.client_main),
+    url(r'^client/main/$', views.project_main),
     url(r'^client/project/register/$', views.project_register),
     url(r'^client/project/main/$', views.project_main),
     url(r'^client/project/(?P<project_id>[0-9]+)$', views.project_detail, name='client_project_detail'),
@@ -34,5 +34,5 @@ urlpatterns = [
     url(r'^howto/partner/$', views.howtouse_partner),
     url(r'^howto/faq/$', views.howtouse_faq),
     url(r'^howto/fare/$', views.howtouse_fare),
-
+    url(r'^message/$', views.message, name='message'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
