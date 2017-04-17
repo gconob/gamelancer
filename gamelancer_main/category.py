@@ -13,7 +13,7 @@ FUNCTIONAL_CATEGORY = (
 PLATFORM_CATEGORY = (
     ("무관", "무관"),
     ("모바일", "모바일"),
-    ("온라인 PC", "온라인 PC"),
+    ("온라인PC", "온라인PC"),
     ("웹게임", "웹게임"),
     ("콘솔", "콘솔"),
     ("아케이드", "아케이드")
@@ -27,6 +27,19 @@ GENRE_CATEGORY = (
     ("AOS", "AOS"),
     ("Sports", "Sports"),
     ("Gamble", "Gamble")
+)
+
+PROGRAM_CATEGORY = (
+    (1, "c/c++"),
+    (2, "Unity3D"),
+    (3, "Unreal"),
+    (4, "Android"),
+    (5, "IOS"),
+    (6, "cocos-2D"),
+    (7, "Photoshop"),
+    (8, "Illustrator"),
+    (9, "3DMax"),
+    (10, "Maya")
 )
 
 TECH_LEVEL = (

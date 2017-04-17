@@ -21,6 +21,7 @@ urlpatterns = [
     url(r'^client/user/account/$', views.client_account, name='client_account'),
     url(r'^client/user/verify/$', views.client_verify, name='client_verify'),
     url(r'^partner/main/$', views.partner_main),
+    url(r'^partner/manage/$', views.partner_manage),
     url(r'^partner/userinfo/$', views.partner_user_page),
     url(r'^partner/userinfo/resume/$', views.partner_resume, name='partner_school'),
     url(r'^partner/portfolio/$', views.partner_portfolio),
