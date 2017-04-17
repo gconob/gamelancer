@@ -20,6 +20,7 @@
 			} else {
 				$("input[type=checkbox][name='function']").prop("checked",false);
 			}
+			$("button[name='search']").trigger("click");
 		});
 
         var fnction = $("input[type='checkbox'][name='function']");
@@ -30,6 +31,7 @@
         		isFnction = isFnction || $("#{{index}}").is(":checked");
         	{% endfor %}
             category1.prop('checked', isFnction);
+            $("button[name='search']").trigger("click");
         });
 
         var category2 = $("input[type='checkbox'][name='category2']");
@@ -39,6 +41,7 @@
 			} else {
 				$("input[type=checkbox][name='platform']").prop("checked",false);
 			}
+			$("button[name='search']").trigger("click");
 		});
         var platform = $("input[type='checkbox'][name='platform']");
         var isPlatform;
@@ -48,6 +51,7 @@
         		isPlatform = isPlatform || $("#{{index}}").is(":checked");
         	{% endfor %}
             category2.prop('checked', isPlatform);
+            $("button[name='search']").trigger("click");
         });
 
         var category3 = $("input[type='checkbox'][name='category3']");
@@ -57,6 +61,7 @@
 			} else {
 				$("input[type=checkbox][name='genre']").prop("checked",false);
 			}
+			$("button[name='search']").trigger("click");
 		});
 		var genre = $("input[type='checkbox'][name='genre']");
 		var isGenre;
@@ -66,6 +71,7 @@
         		isGenre = isGenre || $("#{{index}}").is(":checked");
         	{% endfor %}
             category3.prop('checked', isGenre);
+            $("button[name='search']").trigger("click");
         });
 
         var category4 = $("input[type='checkbox'][name='category4']");
@@ -75,23 +81,18 @@
 			} else {
 				$("input[type=checkbox][name='program']").prop("checked",false);
 			}
+			$("button[name='search']").trigger("click");
 		});
         var program = $("input[type='checkbox'][name='program']");
         var isProgram;
         program.on('change', function() {
         	isProgram = false;
         	{% for index, category in category.PROGRAM_CATEGORY %}
-        		isProgram = isProgram || $("#{{index}}").is(":checked");
+        		isProgram = isProgram   || $("#{{index}}").is(":checked");
         	{% endfor %}
             category4.prop('checked', isProgram);
+            $("button[name='search']").trigger("click");
         });
-
-
-        var values = new Array();
-		$.each($("input[type='checkbox']"), function() {
-		    values.push($(this).val());
-		});
-
     });
     </script>
 
@@ -102,6 +103,7 @@
 <!--TODO. 기능별, 사용기술별, 장르별, 플랫폼별 -->
 
 <p></p>
+<form method="POST">{% csrf_token %}
 
 <label class="checkbox-inline">
 	<input type="checkbox" data-toggle="toggle" name="category1"> 기능별
@@ -109,7 +111,7 @@
 <br>
 {% for index, category in category.FUNCTIONAL_CATEGORY %}
 <label data-form-control="toggle" data-min-width="60" data-min-height="30">
-	<input name="function" type="checkbox" id="{{index}}">
+	<input name="function" type="checkbox" id="{{index}}" value="{{index}}">
 		<span data-form-decorator="before">
 			<span data-form-decorator="after">{{category}}</span>
 		</span>
@@ -124,7 +126,7 @@
 <br>
 {% for index, category in category.PLATFORM_CATEGORY %}
 <label data-form-control="toggle" data-min-width="60" data-min-height="30">
-	<input name="platform" type="checkbox" id="{{index}}">
+	<input name="platform" type="checkbox" id="{{index}}" value="{{index}}">
 		<span data-form-decorator="before">
 			<span data-form-decorator="after">{{category}}</span>
 		</span>
@@ -138,7 +140,7 @@
 <br>
 {% for index, category in category.GENRE_CATEGORY %}
 <label data-form-control="toggle" data-min-width="60" data-min-height="30">
-	<input name="genre" type="checkbox" id="{{index}}">
+	<input name="genre" type="checkbox" id="{{index}}" value="{{index}}">
 		<span data-form-decorator="before">
 			<span data-form-decorator="after">{{category}}</span>
 		</span>
@@ -153,7 +155,7 @@
 <br>
 {% for index, category in category.PROGRAM_CATEGORY %}
 <label data-form-control="toggle" data-min-width="60" data-min-height="30">
-	<input name="program" type="checkbox" id="{{index}}">
+	<input name="program" type="checkbox" id="{{index}}" value="{{index}}">
 		<span data-form-decorator="before">
 			<span data-form-decorator="after">{{category}}</span>
 		</span>
@@ -162,9 +164,8 @@
 
 <p></p>
 
-<form method="POST">{% csrf_token %}
 
-<input name="project_desc" value=""/><button type="submit">검색</button>
+<input name="project_desc" value=""/><button name="search" type="submit">검색</button>
 <br><br>
 
 <button name="project_sort" value="-budget" type="submit">금액높은순</button>

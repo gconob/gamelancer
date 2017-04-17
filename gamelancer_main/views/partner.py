@@ -25,6 +25,17 @@ def partner_main(request):
     if request.method == 'POST':
         #form = ProjectSearchForm(request.POST)
         project_desc = str(request.POST['project_desc'])
+
+        function_selected_values = request.POST.getlist('function')
+        platform_selected_values = request.POST.getlist('platform')
+        genre_selected_values = request.POST.getlist('genre')
+        program_selected_values = request.POST.getlist('program')
+
+        print(function_selected_values)
+        print(platform_selected_values)
+        print(genre_selected_values)
+        print(program_selected_values)
+
         try:
             project_sort = str(request.POST['project_sort'])
         except MultiValueDictKeyError:
