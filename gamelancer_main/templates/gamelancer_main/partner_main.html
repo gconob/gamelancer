@@ -41,7 +41,7 @@
         program.on('change', function() {
         	isProgram = false;
         	{% for index, category in category.PROGRAM_CATEGORY %}
-        		isProgram = isProgram   || $("#{{index}}").is(":checked");
+        		isProgram = isProgram || $("#{{index}}").is(":checked");
         	{% endfor %}
             category4.prop('checked', isProgram);
             $("button[name='search']").trigger("click");
@@ -101,12 +101,12 @@
 <p></p>
 
 <label class="checkbox-inline">
-	<input type="checkbox" data-toggle="toggle" name="category4"> 프로그램별
+	<input type="checkbox" data-toggle="toggle" name="category4" {% if programList %} checked {% endif %}> 프로그램별
 </label>
 <br>
 {% for index, category in category.PROGRAM_CATEGORY %}
 <label data-form-control="toggle" data-min-width="60" data-min-height="30">
-	<input name="program" type="checkbox" id="{{index}}" value="{{index}}">
+	<input name="program" type="checkbox" id="{{index}}" value="{{index}}" {% for program in programList %} {% if program == index %} checked {% endif %} {% endfor %}>
 		<span data-form-decorator="before">
 			<span data-form-decorator="after">{{category}}</span>
 		</span>
@@ -116,7 +116,7 @@
 <p></p>
 
 
-<input name="project_desc" value=""/><button name="search" type="submit">검색</button>
+<input name="desc" value=""/><button name="search" type="submit">검색</button>
 <br><br>
 
 <button name="project_sort" value="-budget" type="submit">금액높은순</button>

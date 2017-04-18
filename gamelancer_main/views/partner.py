@@ -27,13 +27,14 @@ def partner_main(request):
 
     if request.method == 'POST':
         form = ProjectSearchForm(request.POST)
-        project_desc = str(request.POST['project_desc'])    # TODO
+        #project_desc = str(request.POST['project_desc'])    # TODO
         project_sort = request.POST.get('project_sort', '') # TODO
 
         combine_filter = Project.objects.all()
 
-        if (len(project_desc) > 0):
-            combine_filter = combine_filter.filter(desc__contains=project_desc)
+        desc = str(form['desc'].value())
+        if (len(desc) > 0):
+            combine_filter = combine_filter.filter(desc__contains=desc)
 
         category1 = str(form['category1'].value())
         print("category1:"+category1)
@@ -50,6 +51,7 @@ def partner_main(request):
         if (len(category3) > 0):
             combine_filter = combine_filter.filter(category3=category3)
 
+        #project_sort = str(form['project_sort'].value())
         if (len(project_sort) > 0):
             combine_filter = combine_filter.order_by(project_sort)
 
@@ -75,7 +77,7 @@ def partner_main(request):
     except EmptyPage:
         contacts = paginator.page(paginator.num_pages)
 
-    return render(request, 'gamelancer_main/partner_main.html', {'projects':contacts, 'category' : category, 'form' : form})
+    return render(request, 'gamelancer_main/partner_main.html', {'projects':contacts, 'category' : category, 'form' : form, 'programList' : program_selected_values})
 
 @login_required(login_url='/accounts/login/')
 def partner_manage(request):

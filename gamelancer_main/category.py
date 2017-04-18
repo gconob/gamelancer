@@ -31,7 +31,6 @@ GENRE_CATEGORY = (
 
 PROGRAM_CATEGORY = (
     ("c++", "c++"),
-    ("c#", "c#"),
     ("Unity3D", "Unity3D"),
     ("Unreal", "Unreal"),
     ("Android", "Android"),
