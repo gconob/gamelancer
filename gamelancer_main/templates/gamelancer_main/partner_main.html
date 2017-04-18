@@ -41,7 +41,7 @@
         program.on('change', function() {
         	isProgram = false;
         	{% for index, category in category.PROGRAM_CATEGORY %}
-        		isProgram = isProgram || $("#{{index}}").is(":checked");
+        		isProgram = isProgram || $("input[type=checkbox][name='{{index}}']").is(":checked");
         	{% endfor %}
             category4.prop('checked', isProgram);
             $("button[name='search']").trigger("click");
