@@ -1,5 +1,5 @@
 body{
-	padding:50px;
+	padding:0;
 }
 
 .badge-notify {
@@ -132,6 +132,9 @@ footer { background-color:#0c1a1e; min-height:350px; font-family: 'Open Sans', s
 		background-color:inherit;
 		border-top:0 none; 
 	}
+}
+.logo {
+	width:140px;	
 }
 
 
