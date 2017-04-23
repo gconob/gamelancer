@@ -1,24 +1,16 @@
-{% extends "gamelancer_main/template_main.html" %}
-{% load staticfiles %}
-{% block content %}
+{% extends "gamelancer_main/template_main.html" %} 
+{% load staticfiles %} {% block content %}
 
-    <!-- Header -->
-    <header>
-        <div class="container" id="maincontent" tabindex="-1">
-            <div class="row">
-                <div class="col-lg-12">
-                    <img class="img-responsive" src="{% static 'img/profile.png' %}" alt="">
-                    <div class="intro-text">
-                        <h1 class="name">게임랜서에 오신 것을 환영합니다.</h1>
-                        <hr class="star-light">
-                        <span class="skills">안전하고 정확한 프리랜서 -- 게임을 만들 때는 게임랜서의 도움을 받으세요</span>
-                    </div>
-                </div>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="intro-text">
+                <p>게임에 의한 게임을 위한 개발자 매칭</p>
+                <h3>안전하고 믿을 수 있는<br><span>개발자 매칭 플랫폼</span></h3>
+                <a href="#" class="btn round">지금 무료로 프로젝트를 등록하세요</a>
             </div>
         </div>
-    </header>
-
+    </div>
+</div>
 
 {% endblock %}
-
-
