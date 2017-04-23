@@ -25,6 +25,8 @@ import pdb
 @login_required(login_url='/accounts/login/')
 def partner_main(request):
 
+    program_selected_values = []
+
     if request.method == 'POST':
         form = ProjectSearchForm(request.POST)
         #project_desc = str(request.POST['project_desc'])    # TODO
