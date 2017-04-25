@@ -225,7 +225,7 @@ footer {
 header.main {
 	background: url('../img/bg_main.jpg')no-repeat;
 	background-size: cover;
-	height: 540px;
+	height: 660px;
 	text-align: center;	
 	color: #fff;
 }
@@ -247,8 +247,6 @@ header.main .container-fluid {
 }
 .intro-text h3 span {
 	font-weight: 700;
-	/*!
-	color: #4bdda4;*/
 }
 
 .intro-text .btn {
