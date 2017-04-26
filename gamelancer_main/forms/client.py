@@ -3,17 +3,32 @@ from gamelancer_main.models import *
 from gamelancer_main.category import *
 from .html5 import Html5Date
 
-class ProjectRegisterForm(forms.Form):
-    title = forms.CharField(label='제목 ', max_length=140)
-    desc = forms.CharField(label='상세설명 ', widget=forms.Textarea)
-    duration = forms.IntegerField(label="예상기간 ")
-    technical_tag = forms.CharField(label="기술태그", max_length=128)
-    closing_date = forms.DateField(label="마감일", widget=Html5Date)
-    work_start_date = forms.DateField(label="예상업무시작일 ", widget=Html5Date)
-    budget = forms.IntegerField(label="예산")
-    category1 = forms.ChoiceField(choices=FUNCTIONAL_CATEGORY, label="기능별 ", initial='', widget=forms.Select())
-    category2 = forms.ChoiceField(choices=PLATFORM_CATEGORY, label="플랫폼별 ", initial='', widget=forms.Select())
-    category3 = forms.ChoiceField(choices=GENRE_CATEGORY, label="장르별 ", initial='', widget=forms.Select())
+class ProjectRegisterForm(forms.ModelForm):
+    class Meta:
+        model = Project
+        exclude = [ 'client', 'partner', 'display']
+        widgets = { 'title': forms.TextInput(attrs={'class':'form-control', 'placeholder':'제목'}),
+                     'desc' : forms.Textarea(attrs={'class':'form-control'}),
+                    'duration' : forms.NumberInput(attrs={'class':'form-control'}),
+                    'technical_tag':forms.TextInput(attrs={'class':'form-control'}),
+                    'category1' : forms.Select(choices=FUNCTIONAL_CATEGORY, attrs={'class':'form-control'}),
+                    'category2' : forms.Select(choices=PLATFORM_CATEGORY, attrs={'class':'form-control'}),
+                    'category3' : forms.Select(choices=GENRE_CATEGORY, attrs={'class':'form-control'}),
+                    'work_start_date': Html5Date(attrs={'class':'form-control'}),
+                    'closing_date': Html5Date(attrs={'class':'form-control'}),
+                    'budget': forms.NumberInput(attrs={'class':'form-control', 'placeholder':'만원'}),
+                    'region': forms.TextInput(attrs={'class':'form-control'}),
+                    'client':forms.TextInput(attrs={'class':'form-control'}),
+                    'register_time': Html5Date(attrs={'class':'form-control'})
+
+                  }
+
+        labels = {'title': '제목', 'desc':'상세설명', 'duration':'예상기간', 'technical_tag':'기술 태그',
+                  'region':'업무지역', 'budget':'예산',
+                  'category1':'업무형태', 'category2':'플랫폼', 'category3':'장르',
+                  'work_start_date':'예상 업무 시작일',
+                  'closing_date':'모집마감일'}
+
 
     def clean_closing_date(self):
         if 'closing_date' in self.cleaned_data:

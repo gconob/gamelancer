@@ -1,7 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 from django.utils import timezone
 from datetime import date
 from django.conf import settings
@@ -179,9 +177,11 @@ class PublicNotice(models.Model): #공지사항
     notice_date = models.DateField()
     display = models.BooleanField()
 
-class PrivateNotice(models.Model): #개인에게 각각 보내주는 공지 (프로젝트 등록 등)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
-    title = models.CharField(max_length=64)
-    desc = models.TextField()
-    notice_time = models.DateTimeField()
-
+class PrivateNotice(models.Model): #각 개인들에게 보내는 알림
+    reader = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="reader")
+    actor = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="actor", null=True)
+    project = models.ForeignKey(Project, null=True)
+    desc = models.CharField(max_length=1024, null=True)
+    type = models.IntegerField(choices=NOTICE)
+    notice_time = models.DateTimeField(auto_now_add=True)
+    readyn = models.BooleanField(default=False)

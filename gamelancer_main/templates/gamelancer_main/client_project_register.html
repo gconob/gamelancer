@@ -1,27 +1,105 @@
 {% extends "gamelancer_main/template_client.html" %}
 
 {% block content %}
-
     <div class="container">
-        <div class="row">
-            <div class="col-md-2">
+        <form>
+            <div class="col-lg-12">
+                <h2>프로젝트 등록</h2>
+                <div class="form-group row">
+                    <label for="{{ form.title.id_for_label }}" class="col-lg-2 col-form-label">{{ form.title.label }}</label>
+                    <div class="col-lg-6">
+                        {{ form.title }}
+                    </div>
+                </div>
 
-            </div>
-            <div class="col-md-8">
-                <form method="POST"> {% csrf_token %}
+                 <div class="form-group row">
+                    <label for="{{ form.work_start_date.id_for_label }}" class="col-lg-2 col-form-label"> {{ form.work_start_date.label }}</label>
+                    <div class="col-lg-6">
+                        {{ form.work_start_date }}
+                    </div>
+                </div>
 
-                    {{ form.as_p }}
+                <div class="form-group row">
+                    <label for="{{ form.closing_date.id_for_label }}" class="col-lg-2 col-form-label"> {{ form.closing_date.label }}</label>
+                    <div class="col-lg-6">
+                        {{ form.closing_date }}
+                    </div>
+                </div>
 
-                    <button type="submit"> 등록하기 </button>
+
+                <div class="form-group row">
+                    <label for="{{ form.budget.id_for_label }}" class="col-lg-2 col-form-label"> {{ form.budget.label }}</label>
+                    <div class="col-lg-6">
+                        {{ form.budget }}
+                        <p>예산은 만원 단위로 적어 주세요. (예) 100만원</p>
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <label for="{{ form.duration.id_for_label }}" class="col-lg-2 col-form-label"> {{ form.duration.label }}</label>
+                    <div class="col-lg-6">
+                        {{ form.duration }}
+                        <p>프로젝트 수행 예상기간을 일로 표시해 주세요. 예) 60일</p>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="{{ form.desc.id_for_label }}" class="col-lg-2 col-form-label"> {{ form.desc.label }}</label>
+                    <div class="col-lg-6">
+                        {{ form.desc }}
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+
+                    <label for="{{ form.technical_tag.id_for_label}}" class="col-lg-2 col-form-label"> {{ form.technical_tag.label }}</label>
+                    <div class="col-lg-6">
+                        {{ form.technical_tag }}
+                        <p>기술 태그는 쉼표로 나누어 주세요. 예) c++,server,photoshop</p>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="{{ form.category1.id_for_label }}" class="col-lg-2 col-form-label"> {{ form.category1.label }}</label>
+                    <div class="col-lg-6">
+                        {{ form.category1 }}
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="{{ form.category2.id_for_label }}" class="col-lg-2 col-form-label"> {{ form.category2.label }}</label>
+                    <div class="col-lg-6">
+                        {{ form.category2 }}
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="{{ form.category3.id_for_label }}" class="col-lg-2 col-form-label"> {{ form.category3.label }}</label>
+                    <div class="col-lg-6">
+                        {{ form.category3 }}
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="{{ form.region.id_for_label }}" class="col-lg-2 col-form-label"> {{ form.region.label }}</label>
+                    <div class="col-lg-6">
+                        {{ form.region }}
+                    </div>
+                </div>
+
+
+                <input type="submit" value="프로젝트 등록" class="btn btn-success"/>
+
                 </form>
             </div>
-            <div class="col-md-2">
+
+            <div class="col-lg-2">
 
             </div>
-        </div>
-    </div>
 
-	
+    </div>
 {% endblock %}
 
 
