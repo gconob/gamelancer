@@ -107,3 +107,11 @@ def message(request):
     context['notices']= PrivateNotice.objects.filter(reader=request.user).order_by('-id')
     PrivateNotice.objects.filter(reader=request.user).update(readyn = True)
     return render(request, 'gamelancer_main/message.html', context)
+
+#=====================
+# sns login sample
+#=====================
+
+
+def snslogin(request):
+    return render(request , 'gamelancer_main/snslogin.html')    
