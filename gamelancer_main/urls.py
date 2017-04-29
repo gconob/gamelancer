@@ -3,12 +3,12 @@ from django.contrib.auth.views import logout
 from . import views
 from django.conf import settings
 from django.conf.urls.static import static
-  
-urlpatterns = [    
+
+urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^terms-of-service/$', views.terms_of_service, name='terms_of_service'),
     url(r'^accounts/login/$', views.login, name='login'),
-    url(r'^accounts/auth/$', views.auth_view), 
+    url(r'^accounts/auth/$', views.auth_view),
     url(r'^accounts/logout/$', 'django.contrib.auth.views.logout', {'next_page':'/accounts/login'}),
     url(r'^accounts/register/$',views.register),
     url(r'^client/main/$', views.project_main),
@@ -35,4 +35,5 @@ urlpatterns = [
     url(r'^howto/faq/$', views.howtouse_faq),
     url(r'^howto/fare/$', views.howtouse_fare),
     url(r'^message/$', views.message, name='message'),
+    url(r'^snslogin/$', views.snslogin),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
