@@ -128,11 +128,21 @@
     {% for project in projects %}
 	<div class = "row" id="project-item">
 		<div class = "media" >
-            <!--TODO. NEW, 마감임박 추가 표시 필요.-->
+            <!--NEW.-->
+			{% if project.is_new %}
+				<span class="label label-success">NEW  </span>
+			{% endif %}
+
+			<!--모집완료/모집중.-->
             {% if project.is_past_due %}
 				<span class="label label-default">모집완료  </span>
 			{% else %}
 				<span class="label label-success">모집중  </span>
+			{% endif %}
+
+            <!--마감임박.-->
+			{% if project.close_soon %}
+				<span class="label label-success">마감임박  </span>
 			{% endif %}
 
 			<h3> {{ project.title }}</h3>

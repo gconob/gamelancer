@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
-from datetime import date
+from datetime import date, timedelta
 from django.conf import settings
 from gamelancer_main.category import *
 
@@ -66,6 +66,14 @@ class Project(models.Model):
     @property
     def get_tag_list(self):
         return self.technical_tag.split(",")
+
+    @property
+    def is_new(self):
+        return timezone.now() <= self.register_time + timedelta(days=3)
+
+    @property
+    def close_soon(self):
+        return (self.closing_date - timedelta(days=3) <= date.today()) & (date.today() <= self.closing_date)
 
 class ProjectComment(models.Model): #프로젝트 댓글
     project = models.ForeignKey(Project)
