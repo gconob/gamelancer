@@ -147,10 +147,10 @@
 
 			<h3> {{ project.title }}</h3>
 
-			<p> 프로젝트 예산 {{ project.budget }} 마감일 {{ project.closing_date | date:"Y.m.d" }} 예상기간 :  {{ project.duration }} </p>
+			<p> 프로젝트 예산 {{ project.budget }} 마감일 {{ project.closing_date | date:"Y.m.d" }} 예상기간 :  {{ project.duration }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {% if project.projectapply__id != None %} 지원중 {% endif %} {% if project.projectconcern__id != None %} 관심 {% endif %} </p>
 			<p> 등록일 {{ project.register_time |date:"Y.m.d"}}  예상업무시작일  {{ project.work_start_date | date:"Y.m.d" }} </p>
 
-            <!--TODO. 지원중 여부, 관심있는 프로젝트 표시. -->
+			<!--TODO. 관심있는 프로젝트 저장 액션 처리. -->
 
 			<p> {{ project.desc }} </p>
 

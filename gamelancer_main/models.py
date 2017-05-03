@@ -75,6 +75,10 @@ class Project(models.Model):
     def close_soon(self):
         return (self.closing_date - timedelta(days=3) <= date.today()) & (date.today() <= self.closing_date)
 
+    @property
+    def is_finished(self):
+        return self.work_start_date + timedelta(days=self.duration) < date.today()
+
 class ProjectComment(models.Model): #프로젝트 댓글
     project = models.ForeignKey(Project)
     user = models.ForeignKey(settings.AUTH_USER_MODEL)

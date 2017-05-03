@@ -23,7 +23,8 @@ def partner_main(request):
         #project_desc = str(request.POST['project_desc'])    # TODO
         project_sort = request.POST.get('project_sort', '') # TODO
 
-        combine_filter = Project.objects.all()
+        combine_filter = Project.objects.all().values('id', 'client_id', 'partner_id', 'title', 'desc', 'category1', 'category2', 'category3', 'region', 'technical_tag', 'duration', 'register_time', 'work_start_date', 'closing_date', 'budget', 'display', 'projectapply__id', 'projectconcern__id')
+        print(combine_filter.query)
 
         desc = str(form['desc'].value())
         if (len(desc) > 0):
@@ -59,7 +60,10 @@ def partner_main(request):
 
     else:
         form = ProjectSearchForm()
-        projects = Project.objects.all()
+        projects = Project.objects.all().values('id', 'client_id', 'partner_id', 'title', 'desc', 'category1', 'category2', 'category3', 'region', 'technical_tag', 'duration', 'register_time', 'work_start_date', 'closing_date', 'budget', 'display', 'projectapply__id', 'projectconcern__id')
+        print(projects.query)
+
+    print(projects)
 
     paginator = Paginator(projects, 2)
     page = request.GET.get('page')
@@ -80,11 +84,11 @@ def partner_manage(request):
         project_sort = request.POST.get('project_sort', '')
 
         if (len(project_sort) > 0):
-            projects = Project.objects.order_by(project_sort)
+            projects = Project.objects.all().values('id', 'client_id', 'partner_id', 'title', 'desc', 'category1', 'category2', 'category3', 'region', 'technical_tag', 'duration', 'register_time', 'work_start_date', 'closing_date', 'budget', 'display', 'projectapply__id', 'projectconcern__id').order_by(project_sort)
         else:
-            projects = Project.objects.all()
+            projects = Project.objects.all().values('id', 'client_id', 'partner_id', 'title', 'desc', 'category1', 'category2', 'category3', 'region', 'technical_tag', 'duration', 'register_time', 'work_start_date', 'closing_date', 'budget', 'display', 'projectapply__id', 'projectconcern__id')
     else:
-        projects = Project.objects.all()
+        projects = Project.objects.all().values('id', 'client_id', 'partner_id', 'title', 'desc', 'category1', 'category2', 'category3', 'region', 'technical_tag', 'duration', 'register_time', 'work_start_date', 'closing_date', 'budget', 'display', 'projectapply__id', 'projectconcern__id')
 
     paginator = Paginator(projects, 10)
     page = request.GET.get('page')
