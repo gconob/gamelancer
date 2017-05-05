@@ -5,14 +5,20 @@
 
 <script src="https://apis.google.com/js/api:client.js"></script>
 <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+<script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
+
+
+
+
+
 
 
 <!--- 페이스북로그인  ---->
 
 <script>
 //load the JavaScript SDK
-(function(d, s, id){
-    var js, fjs = d.getElementsByTagName(s)[0];
+(function(d, s, id){ //
+    var js, fjs =   d.getElementsByTagName(s)[0];
     if (d.getElementById(id)) {return;}
     js = d.createElement(s); js.id = id;
     js.src = "//connect.facebook.com/ko_KR/sdk.js";
@@ -62,7 +68,7 @@ function getUserData() {
 
 window.fbAsyncInit = function() {
     FB.init({
-        appId      : '165717367166920',
+        appId      : '1268913636497406',
         cookie     : true,
 
         xfbml      : true,
@@ -74,7 +80,7 @@ window.fbAsyncInit = function() {
         if (response.status === 'connected') {
 
         } else {
-            alert("페이스북 로그인 안되어 있음") ; //
+            //alert("페이스북 로그인 안되어 있음") ; //
         }
     });
 };
@@ -217,6 +223,29 @@ window.fbAsyncInit = function() {
 <button id="customBtn"  class="customGPlusSignIn">구글로그인</button>
 <button id="abcd" onclick="kakaoLogin()" style='background-color:pink;color:#000000'>카카오로그인</button>
 <button id="abcde" onclick="fblogin()" style='background-color:yellow;color:#000000'>페이스북로그인</button><br>
+<div id="naver_id_login"> </div>
+<!-- 네이버 로그인 --->
+ <script type="text/javascript">
+  	var naver_id_login = new naver_id_login("rMr134GwxBfP8bRCh755", "http://dev.gamelancer.co.kr:9000/snslogin");
+  	var state = naver_id_login.getUniqState();
+  	 naver_id_login.setButton("white", 2,40);
+  	naver_id_login.setDomain("http://dev.gamelancer.co.kr:9000");
+  	naver_id_login.setState(state);
+  	naver_id_login.setPopup();
+  	naver_id_login.init_naver_id_login();
+
+    alert(naver_id_login.oauthParams.access_token);
+ // 네이버 사용자 프로필 조회
+ naver_id_login.get_naver_userprofile("naverSignInCallback()");
+ // 네이버 사용자 프로필 조회 이후 프로필 정보를 처리할 callback function
+ function naverSignInCallback() {
+   alert(naver_id_login.getProfileData('email'));
+   alert(naver_id_login.getProfileData('nickname'));
+   alert(naver_id_login.getProfileData('age'));
+ }
+  </script>
+
+
         ----  정보 ------
  <p id="email" style='color:red'></p>
  <p id="id" style='color:#fff'> </p>
