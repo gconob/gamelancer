@@ -9,6 +9,10 @@ urlpatterns = [
     url(r'^terms-of-service/$', views.terms_of_service, name='terms_of_service'),
     url(r'^accounts/login/$', views.login, name='login'),
     url(r'^accounts/auth/$', views.auth_view),
+    #sns login check
+    url(r'^accounts/snslogin/$',views.snsLoginCheck ),
+    #sns register
+    url(r'^accounts/snsregister/$',views.snsRegister ),
     url(r'^accounts/logout/$', 'django.contrib.auth.views.logout', {'next_page':'/accounts/login'}),
     url(r'^accounts/register/$',views.register),
     url(r'^client/main/$', views.project_main),
@@ -36,4 +40,5 @@ urlpatterns = [
     url(r'^howto/fare/$', views.howtouse_fare),
     url(r'^message/$', views.message, name='message'),
     url(r'^snslogin/$', views.snslogin),
+    url(r'^naverlogin/$', views.naverlogin),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
