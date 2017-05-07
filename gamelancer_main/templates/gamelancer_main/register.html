@@ -1,19 +1,282 @@
 {% extends "gamelancer_main/template_main.html" %} {% block content %}
+<script src="https://code.jquery.com/jquery-1.12.1.min.js"></script>
+<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+<script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
+
+
+
 <div class="container">
     <div class="row">
         <div class="col-lg-2">
 
         </div>
         <div class="col-lg-8">
-            <form method="POST" action=".">
+            <form id='registerform'  method="POST" action=".">
                 {% csrf_token %} {{form.as_p}}
                 <input class="btn btn-success" type="submit" value="회원 가입 하기" />
             </form>
         </div>
-        <div class="col-lg-2">
+
+       <!-- 소셜 회원가입 회원유형 및 이메일 체크 -->
+         <div class='col-md-8' id='div_sns' style='display:none' >
+              클라이언트  <input type='radio'  name='utype'  id='usertype_1' value='0' />
+              파트너     <input type='radio'  name='utype'  id='usertype_2' value='1' /><br/>
+      				<span id="span_email"> 이메일 <input type='email' style='color:#000' id="emailInput"/></span>
+      				<span><input type='checkbox'> 이용약관 및 개인정보처리에 동의합니다</span><br/>
+                <button type='button'  id='typeok'>확인</button>
+                <button type='button'  id='typecancel'>취소</button>
+          </div>
+       <!-- 소셜 회원가입 회원유형 및 이메일 체크 -->
+
+        <div class="col-lg-2" style='padding-left:50px;padding-top:10px'>
+          <button  class='btn btn-warning btn-lg'  type="button" onclick="kakaoLogin()"  style='width:250px' />카카오아이디로 회원가입</button><br/><br/>
+          <button  class="btn btn-info btn-lg" type="button" onclick="fblogin()" style='width:250px'  />페이스북아이디로 회원가입</button>
+          <div id="naver_id_login">네이버로그인 박스</div>
 
         </div>
     </div>
 </div>
+
+
+
+<script type="text/javascript">
+  var naver_id_login = new naver_id_login("rMr134GwxBfP8bRCh755",
+    "http://dev.gamelancer.co.kr:9000/naverlogin/");
+  var state = naver_id_login.getUniqState();
+  naver_id_login.setButton("white", 4,40);
+  naver_id_login.setDomain("http://dev.gamelancer.co.kr:9000");
+  naver_id_login.setState(state);
+  naver_id_login.setPopup();
+  naver_id_login.init_naver_id_login();
+</script>
+
+
+
+<script>
+//load the JavaScript SDK
+(function(d, s, id){ //
+    var js, fjs =   d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) {return;}
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.com/ko_KR/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+
+
+// 로그인 처리
+function fblogin(){
+    FB.login(function(response) {
+        if (response.authResponse) {
+            access_token = response.authResponse.accessToken; //get access token
+            user_id = response.authResponse.userID; //get FB UID
+
+            getUserData();
+        }
+    }, {scope: 'email,public_profile,user_birthday',
+        return_scopes: true});
+ }
+
+// 페이스북 회원 정보
+function getUserData() {
+
+    FB.api('/me', {fields: 'name,email,gender,birthday,link'}, function(response) {
+
+   //var name = response.name ;
+   var email = '' ;
+
+   if(   (response.email !== undefined) && (response.email !== null)    ) {
+      email = $.trim( response.email ) ;
+   }
+   var id = "F_"+response.id ;
+   snslogin(id,email) ;
+    //var pic = "http://graph.facebook.com/" + response.id + "/picture?type=normal" ;
+
+    });
+}
+
+window.fbAsyncInit = function() {
+    FB.init({
+        appId      : '1268913636497406',
+        cookie     : true,
+        xfbml      : true,
+        version    : 'v2.9'
+    });
+
+   // 페이스북으로 로그인 되어 있는지 체그
+   /*
+    FB.getLoginStatus(function(response) {
+        if (response.status === 'connected') {
+               alert("로그인") ;
+        } else {
+            //alert("페이스북 로그인 안되어 있음") ; //
+        }
+    });
+    */
+};
+
+
+</script>
+
+
+<!-- 카카오 로그인 --->
+<script>
+  Kakao.init("e96cb60483681a6e89e14243896baf8d");   // 카카오  클라이언트 키
+  //  로그인 처리
+  function kakaoLogin()
+  {
+    Kakao.Auth.login({
+         success: function(authObj) {
+              getKakaoUserInfo() ;
+        },
+        fail: function(err) {
+          alert(err);
+        }
+      });
+  }
+
+
+  // 회원 정보
+  function getKakaoUserInfo(){
+                // 카카오톡 기본 정보
+       Kakao.API.request({
+         url: '/v1/user/me',
+         success: function(res) {
+           var id = "K_"+res.id ;
+           var email = res.kaccount_email ;
+           if(   ( res.kaccount_email  !== undefined) && ( res.kaccount_email  !== null)    ) {
+              email = $.trim( res.kaccount_email  ) ;
+           }
+           snslogin(id , email) ;
+           //var img = res.properties.profile_image ;
+           //var nick = res.properties.nickname ;
+         },
+         fail: function(error) {
+           //console.log(error);
+         }
+       });
+     }
+
+     function snslogin(snsid , snsemail)
+     {
+           var fdata  = {
+               username:snsid,
+           } ;
+
+          $.ajaxSetup({
+                    headers: { "X-CSRFToken": getCookie("csrftoken") }
+          });
+//
+          $.ajax({
+           url:'/accounts/snslogin/',
+           data:fdata,
+           dataType:'json',
+          type:'post',
+          success:function(res){
+               var code = $.trim(res.code) ;
+
+               switch(code){
+                   case '1' :   // 정상 로그인
+                      if( $.trim(res.usertype)=='0' ){
+                           location.replace('/client/main') ;
+                      }else{
+                           location.replace('/partner/main');
+                      }
+                  break ;
+
+                  case '3':   // 회원가입하지 않아 회원타입체크
+                  $("#snsUsername").val(snsid) ;
+                  $("#snsEmail").val(snsemail) ;
+
+
+                        $("#registerform").toggle() ;
+                        $("#div_sns").toggle() ;
+                        if(snsemail !=''){
+                           $("#span_email").hide() ;
+                        }
+
+
+                      break ;
+                 case '2' : //  불량회원
+                      alert('로그인이 정지되었습니다. 고객센터에 문의하세요.') ;
+                      break ;
+
+                 case '4' :   // ajax로 접근하지 않았을 때
+                       alert('잘못된 접근입니다') ;
+                       location.replace('/');
+                       break;
+                default :
+                       alert('잘못된 접근입니다') ;
+                       break;
+            }
+
+    },
+    error:function(a, b, c){
+      alert(a + '/' + b +'/' + c) ;
+    }
+  }) ;
+     }
+
+
+     function getCookie(c_name)
+    {
+          if (document.cookie.length > 0)
+         {
+              c_start = document.cookie.indexOf(c_name + "=");
+             if (c_start != -1)
+            {
+                 c_start = c_start + c_name.length + 1;
+                 c_end = document.cookie.indexOf(";", c_start);
+                 if (c_end == -1) c_end = document.cookie.length;
+                      return unescape(document.cookie.substring(c_start,c_end));
+                }
+             }
+       return "";
+  }
+
+
+  $(function(){
+
+     $("#usertype_1").click(function(){
+         $("#snsUsertype").val('0') ;
+     }) ;
+
+     $("#usertype_2").click(function(){
+        $("#snsUsertype").val('1') ;
+     }) ;
+
+     $("#typeok").click(function(){
+        if($("#snsEmail").val()==''){
+          $("#snsEmail").val( $("#emailInput").val()) ;
+        }
+
+        if($('#snsEmail').val()==''){
+          alert('이메일을 입력하세요') ;
+          return false ;
+        }
+
+        if($("#snsUsertype").val()=='9'){
+             alert("회원유형을 선택하세요") ;
+             return false ;
+        }
+
+
+        $("#register").submit() ;
+     });
+
+     $("#typecancel").click(function(){
+        $("#registerform").toggle() ;
+        $("#div_sns").toggle() ;
+    }) ;
+
+}) ;
+
+
+</script>
+    <form name="register" id="register" action="/accounts/snsregister/" method="post">
+       {% csrf_token %}
+       <input type='hidden'  id="snsUsername"name='username'/>
+       <input type='hidden'  id="snsEmail"  name='email' value='' />
+       <input type='hidden'	id='snsUsertype' name='usertype' value='9'/>
+    </form>
 
 {% endblock %}
