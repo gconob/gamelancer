@@ -6,11 +6,12 @@ from ..models import Profile
 from django.utils.datastructures import MultiValueDictKeyError
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from gamelancer_main import category
-from django.db.models import Q
+from django.db.models import Q, F
 from functools import reduce
 import operator
 import pdb
 import datetime
+from django.utils import timezone
 
 
 @login_required(login_url='/accounts/login/')
@@ -84,9 +85,19 @@ def partner_manage(request):
         project_sort = request.POST.get('project_sort', '')
 
         if (len(project_sort) > 0):
-            projects = Project.objects.all().values('id', 'client_id', 'partner_id', 'title', 'desc', 'category1', 'category2', 'category3', 'region', 'technical_tag', 'duration', 'register_time', 'work_start_date', 'closing_date', 'budget', 'display', 'projectapply__id', 'projectconcern__id').order_by(project_sort)
+            if (project_sort == 'is_concern') :
+                projects = Project.objects.filter(projectconcern__isnull=False).values('id', 'client_id', 'partner_id', 'title', 'desc', 'category1', 'category2', 'category3', 'region', 'technical_tag', 'duration', 'register_time', 'work_start_date', 'closing_date', 'budget', 'display', 'projectapply__id', 'projectconcern__id')
+            elif (project_sort == 'is_supported') :
+                projects = Project.objects.filter(projectapply__isnull=False).values('id', 'client_id', 'partner_id', 'title', 'desc', 'category1', 'category2', 'category3', 'region', 'technical_tag', 'duration', 'register_time', 'work_start_date', 'closing_date', 'budget', 'display', 'projectapply__id', 'projectconcern__id')
+            elif (project_sort == 'is_proceeding') :
+                projects = Project.objects.filter(partner_id__isnull=False).values('id', 'client_id', 'partner_id', 'title', 'desc', 'category1', 'category2', 'category3', 'region', 'technical_tag', 'duration', 'register_time', 'work_start_date', 'closing_date', 'budget', 'display', 'projectapply__id', 'projectconcern__id')
+            elif (project_sort == 'is_finished') :
+                projects = Project.objects.annotate(delta=date.today() - F('work_start_date')).filter(delta__gt=F('duration')).values('id', 'client_id', 'partner_id', 'title', 'desc', 'category1', 'category2', 'category3', 'region', 'technical_tag', 'duration', 'register_time', 'work_start_date', 'closing_date', 'budget', 'display', 'projectapply__id', 'projectconcern__id')
+                print(projects.query)
+
         else:
             projects = Project.objects.all().values('id', 'client_id', 'partner_id', 'title', 'desc', 'category1', 'category2', 'category3', 'region', 'technical_tag', 'duration', 'register_time', 'work_start_date', 'closing_date', 'budget', 'display', 'projectapply__id', 'projectconcern__id')
+
     else:
         projects = Project.objects.all().values('id', 'client_id', 'partner_id', 'title', 'desc', 'category1', 'category2', 'category3', 'region', 'technical_tag', 'duration', 'register_time', 'work_start_date', 'closing_date', 'budget', 'display', 'projectapply__id', 'projectconcern__id')
 

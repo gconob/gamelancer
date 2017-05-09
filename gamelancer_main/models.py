@@ -76,8 +76,8 @@ class Project(models.Model):
         return (self.closing_date - timedelta(days=3) <= date.today()) & (date.today() <= self.closing_date)
 
     @property
-    def is_finished(self):
-        return self.work_start_date + timedelta(days=self.duration) < date.today()
+    def finish(self):
+        return self.work_start_date + timedelta(days=self.duration)
 
 class ProjectComment(models.Model): #프로젝트 댓글
     project = models.ForeignKey(Project)

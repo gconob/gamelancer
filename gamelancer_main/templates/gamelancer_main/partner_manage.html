@@ -8,10 +8,9 @@
 <form method="POST">{% csrf_token %}
 
 <br><br>
-<comment>아래 버튼 조건 처리</comment><br>
-<button name="project_sort" value="" type="submit">관심프로젝트</button>
-<button name="project_sort" value="" type="submit">지원중</button>
-<button name="project_sort" value="" type="submit">진행중</button>
+<button name="project_sort" value="is_concern" type="submit">관심프로젝트</button>
+<button name="project_sort" value="is_supported" type="submit">지원중</button>
+<button name="project_sort" value="is_proceeding" type="submit">진행중</button>
 <button name="project_sort" value="is_finished" type="submit">완료프로젝트</button>
 <br><br>
 
