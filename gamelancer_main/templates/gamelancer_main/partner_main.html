@@ -56,6 +56,9 @@
 <p></p>
 <form method="POST">{% csrf_token %}
 
+<input name="desc" value=""/><button name="search" type="submit">검색</button>
+<br>
+
 <label class="checkbox-inline">
 	기능별
 </label>
@@ -86,21 +89,6 @@
 
 <p></p>
 <label class="checkbox-inline">
-	장르별
-</label>
-<br>
-{% for index, category in category.GENRE_CATEGORY %}
-<label data-form-control="toggle" data-min-width="60" data-min-height="30">
-	<input name="category3" type="radio" id="{{index}}" value="{{index}}" {% if form.category3.value == index %} checked {% endif %}>
-		<span data-form-decorator="before">
-			<span data-form-decorator="after">{{category}}</span>
-		</span>
-</label>
-{% endfor %}
-
-<p></p>
-
-<label class="checkbox-inline">
 	<input type="checkbox" data-toggle="toggle" name="category4" {% if programList %} checked {% endif %}> 프로그램별
 </label>
 <br>
@@ -116,13 +104,13 @@
 <p></p>
 
 
-<input name="desc" value=""/><button name="search" type="submit">검색</button>
 <br><br>
-
-<button name="project_sort" value="-budget" type="submit">금액높은순</button>
-<button name="project_sort" value="budget" type="submit">금액낮은순</button>
-<button name="project_sort" value="-register_time" type="submit">최신등록순</button>
-<button name="project_sort" value="closing_date" type="submit">마감임박순</button>
+	<div align="right">
+		<button name="project_sort" value="-budget" type="submit">금액높은순</button>
+		<button name="project_sort" value="budget" type="submit">금액낮은순</button>
+		<button name="project_sort" value="-register_time" type="submit">최신등록순</button>
+		<button name="project_sort" value="closing_date" type="submit">마감임박순</button>
+	</div>
 <br><br>
 
     {% for project in projects %}

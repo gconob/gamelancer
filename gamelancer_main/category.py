@@ -4,19 +4,21 @@ USER_TYPE = (
     )
 
 FUNCTIONAL_CATEGORY = (
-    ("무관", "무관"),
     ("턴키", "턴키"),
-    ("기획", "기획"),
     ("서버", "서버 프로그램"),
+    ("클라이언트", "클라이언트 프로그램"),
+    ("2D", "2D 그래픽"),
+    ("3D", "3D 그래픽"),
+    ("원화", "원화/일러스트"),
+    ("기획", "기획"),
+    ("사운드", "사운드"),
 )
 
 PLATFORM_CATEGORY = (
-    ("무관", "무관"),
     ("모바일", "모바일"),
     ("온라인PC", "온라인PC"),
-    ("웹게임", "웹게임"),
-    ("콘솔", "콘솔"),
-    ("아케이드", "아케이드")
+    ("기타", "기타"),
+    ("무관", "무관"),
 )
 
 GENRE_CATEGORY = (
@@ -30,17 +32,12 @@ GENRE_CATEGORY = (
 )
 
 PROGRAM_CATEGORY = (
-    ("c++", "c++"),
-    ("c#", "c#"),
-    ("Unity3D", "Unity3D"),
-    ("Unreal", "Unreal"),
+    ("c/c++", "c/c++"),
     ("Android", "Android"),
     ("IOS", "IOS"),
-    ("cocos-2D", "cocos-2D"),
-    ("Photoshop", "Photoshop"),
-    ("Illustrator", "Illustrator"),
-    ("3DMax", "3DMax"),
-    ("Maya", "Maya")
+    ("Unity3D", "Unity3D"),
+    ("기타", "기타"),
+    ("무관", "무관"),
 )
 
 TECH_LEVEL = (
