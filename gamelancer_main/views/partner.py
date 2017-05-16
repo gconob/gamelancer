@@ -6,33 +6,67 @@ from ..models import Profile
 from django.utils.datastructures import MultiValueDictKeyError
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from gamelancer_main import category
-
+from django.db.models import Q, F
+from functools import reduce
+import operator
+import pdb
 import datetime
+from django.utils import timezone
 
 
 @login_required(login_url='/accounts/login/')
 def partner_main(request):
 
+    program_selected_values = []
+
     if request.method == 'POST':
-        #form = ProjectSearchForm(request.POST)
-        project_desc = str(request.POST['project_desc'])
-        try:
-            project_sort = str(request.POST['project_sort'])
-        except MultiValueDictKeyError:
-            project_sort = ""
+        form = ProjectSearchForm(request.POST)
+        #project_desc = str(request.POST['project_desc'])    # TODO
+        project_sort = request.POST.get('project_sort', '') # TODO
 
-        if (len(project_desc) != 0 and len(project_sort) != 0):
-            projects = Project.objects.filter(desc__contains=project_desc).order_by(project_sort)
-        elif len(project_desc) != 0 and len(project_sort) == 0:
-            projects = Project.objects.filter(desc__contains=project_desc)
-        elif (len(project_desc) == 0 and len(project_sort) != 0):
-            projects = Project.objects.order_by(project_sort)
-        else:
-            projects = Project.objects.all()
+        combine_filter = Project.objects.all().values('id', 'client_id', 'partner_id', 'title', 'desc', 'category1', 'category2', 'category3', 'region', 'technical_tag', 'duration', 'register_time', 'work_start_date', 'closing_date', 'budget', 'display', 'projectapply__id', 'projectconcern__id')
+        print(combine_filter.query)
+
+        desc = str(form['desc'].value())
+        if (len(desc) > 0):
+            combine_filter = combine_filter.filter(desc__contains=desc)
+
+        category1 = str(form['category1'].value())
+        print("category1:"+category1)
+        if (len(category1) > 0):
+            combine_filter = combine_filter.filter(category1=category1)
+
+        category2 = str(form['category2'].value())
+        print("category2:" + category2)
+        if (len(category2) > 0):
+            combine_filter = combine_filter.filter(category2=category2)
+
+        category3 = str(form['category3'].value())
+        print("category3:" + category3)
+        if (len(category3) > 0):
+            combine_filter = combine_filter.filter(category3=category3)
+
+        #project_sort = str(form['project_sort'].value())
+        if (len(project_sort) > 0):
+            combine_filter = combine_filter.order_by(project_sort)
+
+        program_selected_values = request.POST.getlist('program') # TODO
+        #print(program_selected_values)
+        list_of_Q = [Q(**{'technical_tag__contains': val}) for val in program_selected_values]
+        if (len(list_of_Q) > 0):
+            combine_filter = combine_filter.filter(reduce(operator.or_, list_of_Q))
+
+        #print(combine_filter)
+        projects = combine_filter
+
     else:
-        projects = Project.objects.all()
+        form = ProjectSearchForm()
+        projects = Project.objects.all().values('id', 'client_id', 'partner_id', 'title', 'desc', 'category1', 'category2', 'category3', 'region', 'technical_tag', 'duration', 'register_time', 'work_start_date', 'closing_date', 'budget', 'display', 'projectapply__id', 'projectconcern__id')
+        print(projects.query)
 
-    paginator = Paginator(projects, 1)
+    print(projects)
+
+    paginator = Paginator(projects, 2)
     page = request.GET.get('page')
     try:
         contacts = paginator.page(page)
@@ -41,24 +75,31 @@ def partner_main(request):
     except EmptyPage:
         contacts = paginator.page(paginator.num_pages)
 
-    return render(request, 'gamelancer_main/partner_main.html', {'projects':contacts, 'category' : category})
+    return render(request, 'gamelancer_main/partner_main.html', {'projects':contacts, 'category' : category, 'form' : form, 'programList' : program_selected_values})
 
 @login_required(login_url='/accounts/login/')
 def partner_manage(request):
 
     if request.method == 'POST':
-        #form = ProjectSearchForm(request.POST)
-        try:
-            project_sort = str(request.POST['project_sort'])
-        except MultiValueDictKeyError:
-            project_sort = ""
+        #form = ProjectRegisterForm(request.POST)
+        project_sort = request.POST.get('project_sort', '')
 
-        if (len(project_sort) != 0):
-            projects = Project.objects.order_by(project_sort)
+        if (len(project_sort) > 0):
+            if (project_sort == 'is_concern') :
+                projects = Project.objects.filter(projectconcern__isnull=False).values('id', 'client_id', 'partner_id', 'title', 'desc', 'category1', 'category2', 'category3', 'region', 'technical_tag', 'duration', 'register_time', 'work_start_date', 'closing_date', 'budget', 'display', 'projectapply__id', 'projectconcern__id')
+            elif (project_sort == 'is_supported') :
+                projects = Project.objects.filter(projectapply__isnull=False).values('id', 'client_id', 'partner_id', 'title', 'desc', 'category1', 'category2', 'category3', 'region', 'technical_tag', 'duration', 'register_time', 'work_start_date', 'closing_date', 'budget', 'display', 'projectapply__id', 'projectconcern__id')
+            elif (project_sort == 'is_proceeding') :
+                projects = Project.objects.filter(partner_id__isnull=False).values('id', 'client_id', 'partner_id', 'title', 'desc', 'category1', 'category2', 'category3', 'region', 'technical_tag', 'duration', 'register_time', 'work_start_date', 'closing_date', 'budget', 'display', 'projectapply__id', 'projectconcern__id')
+            elif (project_sort == 'is_finished') :
+                projects = Project.objects.annotate(delta=date.today() - F('work_start_date')).filter(delta__gt=F('duration')).values('id', 'client_id', 'partner_id', 'title', 'desc', 'category1', 'category2', 'category3', 'region', 'technical_tag', 'duration', 'register_time', 'work_start_date', 'closing_date', 'budget', 'display', 'projectapply__id', 'projectconcern__id')
+                print(projects.query)
+
         else:
-            projects = Project.objects.all()
+            projects = Project.objects.all().values('id', 'client_id', 'partner_id', 'title', 'desc', 'category1', 'category2', 'category3', 'region', 'technical_tag', 'duration', 'register_time', 'work_start_date', 'closing_date', 'budget', 'display', 'projectapply__id', 'projectconcern__id')
+
     else:
-        projects = Project.objects.all()
+        projects = Project.objects.all().values('id', 'client_id', 'partner_id', 'title', 'desc', 'category1', 'category2', 'category3', 'region', 'technical_tag', 'duration', 'register_time', 'work_start_date', 'closing_date', 'budget', 'display', 'projectapply__id', 'projectconcern__id')
 
     paginator = Paginator(projects, 10)
     page = request.GET.get('page')

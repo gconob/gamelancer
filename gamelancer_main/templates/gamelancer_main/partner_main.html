@@ -11,41 +11,41 @@
 
     <script type='text/javascript'>
     $(document).ready(function(){
-        var category1 = $("input[type='checkbox'][name='category1']");
 
-		{% for index, category in category.FUNCTIONAL_CATEGORY %}
-        var F{{index}} = $("input[type='checkbox'][name='F{{index}}']");
-        F{{index}}.on('change', function() {
-            category1.prop('checked', this.checked);
+        var category1 = $("input[type='radio'][name='category1']");
+        category1.on('change', function() {
+            $("button[name='search']").trigger("click");
         });
-        {% endfor %}
 
-        var category2 = $("input[type='checkbox'][name='category2']");
-
-		{% for index, category in category.PLATFORM_CATEGORY %}
-        var PLATFORM{{index}} = $("input[type='checkbox'][name='PLATFORM{{index}}']");
-        PLATFORM{{index}}.on('change', function() {
-            category2.prop('checked', this.checked);
+        var category2 = $("input[type='radio'][name='category2']");
+        category2.on('change', function() {
+            $("button[name='search']").trigger("click");
         });
-        {% endfor %}
 
-        var category3 = $("input[type='checkbox'][name='category3']");
-
-		{% for index, category in category.GENRE_CATEGORY %}
-        var G{{index}} = $("input[type='checkbox'][name='G{{index}}']");
-        G{{index}}.on('change', function() {
-            category3.prop('checked', this.checked);
+		var category3 = $("input[type='radio'][name='category3']");
+        category3.on('change', function() {
+            $("button[name='search']").trigger("click");
         });
-        {% endfor %}
 
         var category4 = $("input[type='checkbox'][name='category4']");
-
-		{% for index, category in category.PROGRAM_CATEGORY %}
-        var PROGRAM{{index}} = $("input[type='checkbox'][name='PROGRAM{{index}}']");
-        PROGRAM{{index}}.on('change', function() {
-            category4.prop('checked', this.checked);
+		category4.on('change', function() {
+			if (category4.is(":checked")) {
+				$("input[type=checkbox][name='program']").prop("checked",true);
+			} else {
+				$("input[type=checkbox][name='program']").prop("checked",false);
+			}
+			$("button[name='search']").trigger("click");
+		});
+        var program = $("input[type='checkbox'][name='program']");
+        var isProgram;
+        program.on('change', function() {
+        	isProgram = false;
+        	{% for index, category in category.PROGRAM_CATEGORY %}
+        		isProgram = isProgram || $("input[type=checkbox][name='{{index}}']").is(":checked");
+        	{% endfor %}
+            category4.prop('checked', isProgram);
+            $("button[name='search']").trigger("click");
         });
-        {% endfor %}
     });
     </script>
 
@@ -53,17 +53,16 @@
 
 <h1> 프로젝트 찾기 </h1>
 
-<!--TODO. 기능별, 사용기술별, 장르별, 플랫폼별 -->
-
 <p></p>
+<form method="POST">{% csrf_token %}
 
 <label class="checkbox-inline">
-	<input type="checkbox" data-toggle="toggle" name="category1"> 기능별
+	기능별
 </label>
 <br>
 {% for index, category in category.FUNCTIONAL_CATEGORY %}
 <label data-form-control="toggle" data-min-width="60" data-min-height="30">
-	<input name="F{{index}}" type="checkbox">
+	<input name="category1" type="radio" id="{{index}}" value="{{index}}" {% if form.category1.value == index %} checked {% endif %}>
 		<span data-form-decorator="before">
 			<span data-form-decorator="after">{{category}}</span>
 		</span>
@@ -73,12 +72,12 @@
 <p></p>
 
 <label class="checkbox-inline">
-	<input type="checkbox" data-toggle="toggle" name="category2"> 플랫폼별
+	플랫폼별
 </label>
 <br>
 {% for index, category in category.PLATFORM_CATEGORY %}
 <label data-form-control="toggle" data-min-width="60" data-min-height="30">
-	<input name="PLATFORM{{index}}" type="checkbox">
+	<input name="category2" type="radio" id="{{index}}" value="{{index}}" {% if form.category2.value == index %} checked {% endif %}>
 		<span data-form-decorator="before">
 			<span data-form-decorator="after">{{category}}</span>
 		</span>
@@ -87,12 +86,12 @@
 
 <p></p>
 <label class="checkbox-inline">
-	<input type="checkbox" data-toggle="toggle" name="category3"> 장르별
+	장르별
 </label>
 <br>
 {% for index, category in category.GENRE_CATEGORY %}
 <label data-form-control="toggle" data-min-width="60" data-min-height="30">
-	<input name="G{{index}}" type="checkbox">
+	<input name="category3" type="radio" id="{{index}}" value="{{index}}" {% if form.category3.value == index %} checked {% endif %}>
 		<span data-form-decorator="before">
 			<span data-form-decorator="after">{{category}}</span>
 		</span>
@@ -102,12 +101,12 @@
 <p></p>
 
 <label class="checkbox-inline">
-	<input type="checkbox" data-toggle="toggle" name="category4"> 프로그램별
+	<input type="checkbox" data-toggle="toggle" name="category4" {% if programList %} checked {% endif %}> 프로그램별
 </label>
 <br>
 {% for index, category in category.PROGRAM_CATEGORY %}
 <label data-form-control="toggle" data-min-width="60" data-min-height="30">
-	<input name="PROGRAM{{index}}" type="checkbox">
+	<input name="program" type="checkbox" id="{{index}}" value="{{index}}" {% for program in programList %} {% if program == index %} checked {% endif %} {% endfor %}>
 		<span data-form-decorator="before">
 			<span data-form-decorator="after">{{category}}</span>
 		</span>
@@ -116,9 +115,8 @@
 
 <p></p>
 
-<form method="POST">{% csrf_token %}
 
-<input name="project_desc" value=""/><button type="submit">검색</button>
+<input name="desc" value=""/><button name="search" type="submit">검색</button>
 <br><br>
 
 <button name="project_sort" value="-budget" type="submit">금액높은순</button>
@@ -130,19 +128,29 @@
     {% for project in projects %}
 	<div class = "row" id="project-item">
 		<div class = "media" >
-            <!--TODO. NEW, 마감임박 추가 표시 필요.-->
+            <!--NEW.-->
+			{% if project.is_new %}
+				<span class="label label-success">NEW  </span>
+			{% endif %}
+
+			<!--모집완료/모집중.-->
             {% if project.is_past_due %}
 				<span class="label label-default">모집완료  </span>
 			{% else %}
 				<span class="label label-success">모집중  </span>
 			{% endif %}
 
+            <!--마감임박.-->
+			{% if project.close_soon %}
+				<span class="label label-success">마감임박  </span>
+			{% endif %}
+
 			<h3> {{ project.title }}</h3>
 
-			<p> 프로젝트 예산 {{ project.budget }} 마감일 {{ project.closing_date | date:"Y.m.d" }} 예상기간 :  {{ project.duration }} </p>
+			<p> 프로젝트 예산 {{ project.budget }} 마감일 {{ project.closing_date | date:"Y.m.d" }} 예상기간 :  {{ project.duration }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {% if project.projectapply__id != None %} 지원중 {% endif %} {% if project.projectconcern__id != None %} 관심 {% endif %} </p>
 			<p> 등록일 {{ project.register_time |date:"Y.m.d"}}  예상업무시작일  {{ project.work_start_date | date:"Y.m.d" }} </p>
 
-            <!--TODO. 지원중 여부, 관심있는 프로젝트 표시. -->
+			<!--TODO. 관심있는 프로젝트 저장 액션 처리. -->
 
 			<p> {{ project.desc }} </p>
 
