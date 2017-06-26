@@ -7,11 +7,11 @@
 	<a href="/">
 		<img class="logo" src="{% static 'img/gamelancer_logo.svg' %}" alt="게임랜서 로고">
 	</a>
-	<p class="title-info"><span></span>로그인을 하시면 더욱 다양한 서비스를 이용하실 수 있습니다.</p>
+	<p class="title-info"><span></span>로그인을 하시면 더욱 다양한 서비스를   이용하실 수 있습니다.</p>
 	<div class="login-form"  id='loginform'>
 		<form action="/accounts/auth/" method="post"> {% csrf_token %}
-			<input class="form-control login-input" type="text" name="username" id="username" placeholder="아이디를 입력해주세요." />
-			<input class="form-control login-input" type="password" name="password" id="password" placeholder="비밀번호를 입력해주세요." />
+			<input class="btn btn-success" type="text" name="username" id="username" placeholder="아이디를 입력해주세요." />
+			<input class="btn btn-success" type="password" name="password" id="password" placeholder="비밀번호를 입력해주세요." />
 			<label class="checkbox" for="rememberme" class="rememberme">
     	<input type="checkbox" id="rememberme"/>로그인 정보 저장</label>
 			<div class="btn-wrap">
